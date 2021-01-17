@@ -60,6 +60,7 @@ public:
         setColour (juce::Slider::textBoxBackgroundColourId, juce::Colours::darkcyan.withBrightness (0.5f));
         setColour (juce::Slider::textBoxOutlineColourId, juce::Colours::red.withBrightness (0.2f));
     
+        /** ComboBox and PopupMenu defaults. */
         setColour (juce::ComboBox::backgroundColourId, juce::Colours::black);
         setColour (juce::ComboBox::outlineColourId, juce::Colours::white.withAlpha (0.75f));
         setColour (juce::PopupMenu::backgroundColourId, juce::Colours::black.withAlpha (0.5f));

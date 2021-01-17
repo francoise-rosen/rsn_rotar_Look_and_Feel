@@ -25,32 +25,32 @@ public:
     struct SendControl
     {
         //SendControl (const SendControl&);
+        
         std::unique_ptr<juce::ToggleButton> toggle;
         std::unique_ptr<juce::Slider> amount;
-        std::unique_ptr<juce::ComboBox> destination;
+        std::unique_ptr<juce::ComboBox> target;
         // reserved area for the object contained in SendControl object
         std::unique_ptr<juce::Rectangle<int>> area_a;
     };
-
-    void makeControls();
-
     void paint (juce::Graphics&) override;
     void resized() override;
 
 private:
     juce::Slider lfoRateSlider { juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::TextBoxBelow };
     juce::Label label_A;
-    const int numSends { 4 };
+    
+    /** This is how many targets the LFO has .*/
+    const int numTargets { 4 };
     std::vector<SendControl> controls;
-    juce::ToggleButton toggle_a;
-    juce::ComboBox box_a;
-    juce::Slider destinationSlider_a { juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::TextBoxBelow };
     WaveshaperLookAndFeel waveshaperLookAndFeel;
     
     /** areas. */
     std::unique_ptr<juce::Rectangle<int>> rateArea;
     std::unique_ptr<juce::Rectangle<int>> phaseArea;
-    std::unique_ptr<juce::Rectangle<int>> sendArea;
+    std::unique_ptr<juce::Rectangle<int>> targetArea;
+    
+    void addControls();
+    void makeControlsVisible();
     
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LFOSection)

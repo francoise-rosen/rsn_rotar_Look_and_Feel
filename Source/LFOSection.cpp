@@ -16,13 +16,13 @@ LFOSection::LFOSection()
 {
     addAndMakeVisible (&lfoRateSlider);
     addAndMakeVisible (&label_A);
-    addAndMakeVisible (&toggle_a);
-    addAndMakeVisible (&box_a);
-    addAndMakeVisible (&destinationSlider_a);
     label_A.setText ("LFO", juce::NotificationType::dontSendNotification);
     label_A.setJustificationType (juce::Justification::centred);
     label_A.setColour (juce::Label::outlineColourId, juce::Colours::darkblue);
     label_A.setColour (juce::Label::backgroundColourId, juce::Colours::darkcyan.darker());
+    
+    addControls();
+    makeControlsVisible();
     
     setLookAndFeel (&waveshaperLookAndFeel);
 }
@@ -40,6 +40,15 @@ void LFOSection::paint (juce::Graphics& g)
     g.setFont (14.0f);
     g.drawText ("LFOSection", getLocalBounds(),
                 juce::Justification::centred, true);   // draw some placeholder text
+    
+    g.setColour(juce::Colours::orange);
+    for (int i = 0; i < controls.size(); ++i)
+    {
+        if (controls[i].area_a != nullptr)
+        {
+            g.drawRect(*(controls[i].area_a));
+        }
+    }
   
 }
 
@@ -49,14 +58,15 @@ void LFOSection::resized()
 //    lfoRateSlider.setBounds(box.removeFromLeft (box.getWidth() * 0.25f).removeFromBottom (getHeight() * 0.75f).reduced (5.0f));
 //    label_A.setBounds(getLocalBounds().withLeft(getWidth() * 0.75f).withBottom(getHeight() * 0.25f));
 //
-    rateArea = std::make_unique<juce::Rectangle<int>> (box.removeFromLeft (box.getWidth() * 0.3f));
-    phaseArea = std::make_unique<juce::Rectangle<int>> (box.removeFromLeft (box.getWidth() * 0.4f));
-    sendArea = std::make_unique<juce::Rectangle<int>> (box);
+    rateArea = std::make_unique<juce::Rectangle<int>> (box.removeFromLeft (getWidth() * 0.3f));
+    phaseArea = std::make_unique<juce::Rectangle<int>> (box.removeFromLeft (getWidth() * 0.4f));
+    targetArea = std::make_unique<juce::Rectangle<int>> (box);
     lfoRateSlider.setBounds (rateArea->reduced (5.0f));
     
     for (int j = 0; j < controls.size(); ++j)
     {
-        controls[j].area_a = std::make_unique<juce::Rectangle<int>> (sendArea->withBottom (sendArea->getY() + sendArea->getHeight() / (4 - j)));
+//        controls[j].area_a = std::make_unique<juce::Rectangle<int>> (targetArea->withBottom (targetArea->getY() + targetArea->getHeight() / (numTargets - j)));
+        controls[j].area_a = std::make_unique<juce::Rectangle<int>> (targetArea->removeFromTop (getHeight() / numTargets));
     }
     
 }
@@ -73,17 +83,27 @@ void LFOSection::resized()
 //    area_a = std::make_unique<juce::Rectangle<int>> (send.area_a);
 //}
 
-void LFOSection::makeControls()
+void LFOSection::addControls()
 {
     controls.clear();
-    controls.resize (numSends);
+    controls.resize (numTargets);
     for (int i = 0; i < controls.size(); ++i)
     {
 //        controls[i].amount->setSliderStyle (juce::Slider::SliderStyle::Rotary);
         controls[i].toggle = std::make_unique<juce::ToggleButton> ("Send " + juce::String (i));
         controls[i].amount = std::make_unique<juce::Slider> (juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::TextBoxBelow);
-        controls[i].destination = std::make_unique<juce::ComboBox> ("Choice " + juce::String (i));
-        controls[i].destination->addItemList({"iF FReQ", "iF Q", "iF Bst", "oF Freq", "oF Q", "oF Bst", "Satur", "Crossfd", "mx"}, 0);
+        controls[i].target = std::make_unique<juce::ComboBox> ("Choice " + juce::String (i));
+        controls[i].target->addItemList({"iF FReQ", "iF Q", "iF Bst", "oF Freq", "oF Q", "oF Bst", "Satur", "Crossfd", "mx"}, 1);
+    }
+}
+
+void LFOSection::makeControlsVisible()
+{
+    for (int i = 0; i < controls.size(); ++i)
+    {
+        addAndMakeVisible (controls[i].amount.get());
+        addAndMakeVisible (controls[i].toggle.get());
+        addAndMakeVisible (controls[i].target.get());
     }
 }
 
