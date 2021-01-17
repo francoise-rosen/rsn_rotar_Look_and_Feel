@@ -49,7 +49,6 @@ void LFOSection::paint (juce::Graphics& g)
             g.drawRect(*(controls[i].area_a));
         }
     }
-  
 }
 
 void LFOSection::resized()
@@ -59,7 +58,7 @@ void LFOSection::resized()
 //    label_A.setBounds(getLocalBounds().withLeft(getWidth() * 0.75f).withBottom(getHeight() * 0.25f));
 //
     rateArea = std::make_unique<juce::Rectangle<int>> (box.removeFromLeft (getWidth() * 0.3f));
-    phaseArea = std::make_unique<juce::Rectangle<int>> (box.removeFromLeft (getWidth() * 0.4f));
+    phaseArea = std::make_unique<juce::Rectangle<int>> (box.removeFromLeft (getWidth() * 0.3f));
     targetArea = std::make_unique<juce::Rectangle<int>> (box);
     lfoRateSlider.setBounds (rateArea->reduced (5.0f));
     
@@ -67,6 +66,9 @@ void LFOSection::resized()
     {
 //        controls[j].area_a = std::make_unique<juce::Rectangle<int>> (targetArea->withBottom (targetArea->getY() + targetArea->getHeight() / (numTargets - j)));
         controls[j].area_a = std::make_unique<juce::Rectangle<int>> (targetArea->removeFromTop (getHeight() / numTargets));
+        controls[j].amount->setBounds (controls[j].area_a->removeFromRight (targetArea->getWidth() * 0.25f));
+        controls[j].toggle->setBounds (controls[j].area_a->removeFromLeft (getHeight() / numTargets));
+        controls[j].target->setBounds (controls[j].area_a->reduced (2.5f, 7.0f));
     }
     
 }
@@ -90,8 +92,9 @@ void LFOSection::addControls()
     for (int i = 0; i < controls.size(); ++i)
     {
 //        controls[i].amount->setSliderStyle (juce::Slider::SliderStyle::Rotary);
-        controls[i].toggle = std::make_unique<juce::ToggleButton> ("Send " + juce::String (i));
-        controls[i].amount = std::make_unique<juce::Slider> (juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::TextBoxBelow);
+//        controls[i].toggle = std::make_unique<juce::ToggleButton> ("Send " + juce::String (i));
+        controls[i].toggle = std::make_unique<juce::ToggleButton> ();
+        controls[i].amount = std::make_unique<juce::Slider> (juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::NoTextBox);
         controls[i].target = std::make_unique<juce::ComboBox> ("Choice " + juce::String (i));
         controls[i].target->addItemList({"iF FReQ", "iF Q", "iF Bst", "oF Freq", "oF Q", "oF Bst", "Satur", "Crossfd", "mx"}, 1);
     }
@@ -104,6 +107,10 @@ void LFOSection::makeControlsVisible()
         addAndMakeVisible (controls[i].amount.get());
         addAndMakeVisible (controls[i].toggle.get());
         addAndMakeVisible (controls[i].target.get());
+        controls[i].target->setColour(juce::ComboBox::backgroundColourId, juce::Colours::silver.darker());
+        controls[i].target->setColour(juce::ComboBox::textColourId, juce::Colours::black);
+        controls[i].target->setColour(juce::ComboBox::outlineColourId, juce::Colours::black);
+        
     }
 }
 
