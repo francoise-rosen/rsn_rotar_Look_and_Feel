@@ -40,7 +40,7 @@ private:
     juce::Label label_A;
     
     /** This is how many targets the LFO has .*/
-    const int numTargets { 4 };
+    const int numTargets { 3 };
     std::vector<SendControl> controls;
     WaveshaperLookAndFeel waveshaperLookAndFeel;
     

@@ -92,7 +92,8 @@ public:
     juce::Label* createSliderTextBox (juce::Slider& slider) override;
     juce::Slider::SliderLayout getSliderLayout (juce::Slider& slider) override;
     
-//    void drawLinearSliderBackground
+    /** Special colour functions. */
+    //================================================================================
     void setThumbGradientTargetColour (const juce::Colour& colour);
     void setTrackGradientTargetColour (const juce::Colour& colour);
     void setThumbShadowColour (const juce::Colour& colour);
@@ -137,7 +138,7 @@ public:
     void drawButtonBackground (juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour, bool isButtonHighlighted, bool isButtonDown) override;
     
     //================================================================================
-    /** ComboBox, PopupMenu etc. */
+    /** ComboBox, PopupMenu, Font etc. */
     void drawComboBox (juce::Graphics& g, int width, int height, bool down, int buttonX, int buttonY, int buttonW, int buttonH, juce::ComboBox& box) override;
     //juce::Font getComboBoxFont (juce::ComboBox& box) override;
     void drawPopupMenuBackground (juce::Graphics& g, int width, int height) override;
@@ -147,6 +148,13 @@ public:
         return defaultFont;
     }
     juce::Font getComboBoxFont (juce::ComboBox& box) override;
+    void setFontHeight (const float& newHeight)
+    {
+        /** we don't need any micro fonts. */
+        if (newHeight < 8.0f)
+            fontHeight = 8.0f;
+        fontHeight = newHeight;
+    }
     
     //================================================================================
     /** Labels */

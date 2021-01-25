@@ -54,9 +54,6 @@ void LFOSection::paint (juce::Graphics& g)
 void LFOSection::resized()
 {
     auto box = getLocalBounds();
-//    lfoRateSlider.setBounds(box.removeFromLeft (box.getWidth() * 0.25f).removeFromBottom (getHeight() * 0.75f).reduced (5.0f));
-//    label_A.setBounds(getLocalBounds().withLeft(getWidth() * 0.75f).withBottom(getHeight() * 0.25f));
-//
     rateArea = std::make_unique<juce::Rectangle<int>> (box.removeFromLeft (getWidth() * 0.3f));
     phaseArea = std::make_unique<juce::Rectangle<int>> (box.removeFromLeft (getWidth() * 0.3f));
     targetArea = std::make_unique<juce::Rectangle<int>> (box);
@@ -107,9 +104,11 @@ void LFOSection::makeControlsVisible()
         addAndMakeVisible (controls[i].amount.get());
         addAndMakeVisible (controls[i].toggle.get());
         addAndMakeVisible (controls[i].target.get());
-        controls[i].target->setColour(juce::ComboBox::backgroundColourId, juce::Colours::silver.darker());
+        controls[i].target->setColour(juce::ComboBox::backgroundColourId, juce::Colours::darkcyan);
         controls[i].target->setColour(juce::ComboBox::textColourId, juce::Colours::black);
         controls[i].target->setColour(juce::ComboBox::outlineColourId, juce::Colours::black);
+        controls[i].amount->setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::black);
+        controls[i].amount->setColour(juce::Slider::rotarySliderOutlineColourId, juce::Colours::black);
         
     }
 }
