@@ -136,6 +136,7 @@ public:
     /** Buttons. */
     juce::Font getTextButtonFont (juce::TextButton& t, int buttonHeight) override;
     void drawButtonBackground (juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour, bool isButtonHighlighted, bool isButtonDown) override;
+    void drawToggleButton (juce::Graphics& g, juce::ToggleButton& tb, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
     
     //================================================================================
     /** ComboBox, PopupMenu, Font etc. */
@@ -398,7 +399,10 @@ inline void WaveshaperLookAndFeel::drawButtonBackground (juce::Graphics& g, juce
     }
 }
 
-
+inline void WaveshaperLookAndFeel::drawToggleButton (juce::Graphics& g, juce::ToggleButton& tb, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
+{
+    
+}
 
 /** ComboBox methods. */
 
