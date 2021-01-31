@@ -65,7 +65,7 @@ void LFOSection::resized()
         controls[j].area_a = std::make_unique<juce::Rectangle<int>> (targetArea->removeFromTop (getHeight() / numTargets));
         controls[j].amount->setBounds (controls[j].area_a->removeFromRight (targetArea->getWidth() * 0.25f));
         controls[j].toggle->setBounds (controls[j].area_a->removeFromLeft (getHeight() / numTargets));
-        controls[j].target->setBounds (controls[j].area_a->reduced (2.5f, 7.0f));
+        controls[j].target->setBounds (controls[j].area_a->withSizeKeepingCentre(controls[j].area_a->getWidth(), juce::jmin (27.0f, controls[j].area_a->getHeight() * 0.5f)));
     }
     
 }

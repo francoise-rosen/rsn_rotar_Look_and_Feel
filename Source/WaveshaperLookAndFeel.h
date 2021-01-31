@@ -74,7 +74,8 @@ public:
         /** Button. */
         setColour (juce::TextButton::buttonColourId, juce::Colours::silver.darker());
         setColour (juce::TextButton::buttonOnColourId, juce::Colours::orange);
-        setColour (juce::ToggleButton::textColourId, juce::Colours::orange);
+        setColour (juce::ToggleButton::textColourId, juce::Colours::black);
+        setColour (juce::ToggleButton::tickColourId, juce::Colours::orange);
         
         
     }
@@ -422,6 +423,9 @@ inline void WaveshaperLookAndFeel::drawToggleButton (juce::Graphics& g, juce::To
     auto fontSize = juce::jmin (15.0f, (float) button.getHeight() * 0.75f);
     auto tickWidth = fontSize * 1.1f;
     
+    /** the button style must use buttonShape.
+        So I need to change drawTickBox function to be able to draw different shapes.
+     */
     if (tickStyle == ToggleButtonTickStyle::Tick){
         drawTickBox (g, button, 4.0f, ((float) button.getHeight() - tickWidth) * 0.5f,
                      tickWidth, tickWidth,
@@ -429,6 +433,16 @@ inline void WaveshaperLookAndFeel::drawToggleButton (juce::Graphics& g, juce::To
                      button.isEnabled(),
                      shouldDrawButtonAsHighlighted,
                      shouldDrawButtonAsDown);
+    }
+    else if (tickStyle == ToggleButtonTickStyle::Cross)
+    {
+        //drawCrossBox
+    }
+    
+    else if (tickStyle == ToggleButtonTickStyle::Fill)
+    {
+        // this is like the TextButton
+    
     }
     
     g.setColour (button.findColour (juce::ToggleButton::textColourId));
