@@ -74,14 +74,16 @@ public:
         /** Button. */
         setColour (juce::TextButton::buttonColourId, juce::Colours::silver.darker());
         setColour (juce::TextButton::buttonOnColourId, juce::Colours::orange);
+        setColour (juce::ToggleButton::textColourId, juce::Colours::orange);
         
         
     }
     virtual ~WaveshaperLookAndFeel() override
     {}
     
-    enum class OutlineType {ellipse, arcNormal, arcWithArrows, arcWithCornersOut, arcWithCornersIn, arcThreePointerEmpty, arcThreePointerFilled, noOutline};
+    enum class OutlineType { ellipse, arcNormal, arcWithArrows, arcWithCornersOut, arcWithCornersIn, arcThreePointerEmpty, arcThreePointerFilled, noOutline };
     enum class ButtonShape { RoundedRect, Rect, Circle, Custom };
+    enum class ToggleButtonTick { Fill, Tick, Cross };
 
     /** Slider functions. */
     //================================================================================
@@ -397,11 +399,45 @@ inline void WaveshaperLookAndFeel::drawButtonBackground (juce::Graphics& g, juce
         g.setColour (juce::Colours::black);
         g.drawEllipse (rimXY.getX() + rimWidth, rimXY.getY() + rimWidth , rimRadius * 2.0f, rimRadius * 2.0f, rimWidth);
     }
+    else if (buttonShape == ButtonShape::Rect)
+    {
+        
+    }
+    
+    else if (buttonShape == ButtonShape::RoundedRect)
+    {
+        
+    }
+    
+    else if (buttonShape == ButtonShape::Custom)
+    {
+        /** rounded triangle with direction. */
+        /** button to fit the shape of the environment. */
+    }
 }
 
-inline void WaveshaperLookAndFeel::drawToggleButton (juce::Graphics& g, juce::ToggleButton& tb, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
+inline void WaveshaperLookAndFeel::drawToggleButton (juce::Graphics& g, juce::ToggleButton& button, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
 {
+    auto fontSize = juce::jmin (15.0f, (float) button.getHeight() * 0.75f);
+    auto tickWidth = fontSize * 1.1f;
     
+    drawTickBox (g, button, 4.0f, ((float) button.getHeight() - tickWidth) * 0.5f,
+                 tickWidth, tickWidth,
+                 button.getToggleState(),
+                 button.isEnabled(),
+                 shouldDrawButtonAsHighlighted,
+                 shouldDrawButtonAsDown);
+    
+    g.setColour (button.findColour (juce::ToggleButton::textColourId));
+    g.setFont (fontSize);
+    
+    if (! button.isEnabled())
+        g.setOpacity (0.5f);
+    
+    g.drawFittedText (button.getButtonText(),
+                      button.getLocalBounds().withTrimmedLeft (juce::roundToInt (tickWidth) + 10)
+                      .withTrimmedRight (2),
+                      juce::Justification::centredLeft, 10);
 }
 
 /** ComboBox methods. */
