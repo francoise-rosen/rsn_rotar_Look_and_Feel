@@ -83,7 +83,7 @@ public:
     
     enum class OutlineType { ellipse, arcNormal, arcWithArrows, arcWithCornersOut, arcWithCornersIn, arcThreePointerEmpty, arcThreePointerFilled, noOutline };
     enum class ButtonShape { RoundedRect, Rect, Circle, Custom };
-    enum class ToggleButtonTick { Fill, Tick, Cross };
+    enum class ToggleButtonTickStyle { Fill, Tick, Cross };
 
     /** Slider functions. */
     //================================================================================
@@ -193,6 +193,7 @@ private:
     bool isTrackVisible {false};
     OutlineType localOutlineType {OutlineType::arcNormal};
     ButtonShape buttonShape { ButtonShape::Circle };
+    ToggleButtonTickStyle tickStyle { ToggleButtonTickStyle::Tick };
     
     /** Draw Linear Slider thumb. */
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveshaperLookAndFeel)
@@ -421,12 +422,14 @@ inline void WaveshaperLookAndFeel::drawToggleButton (juce::Graphics& g, juce::To
     auto fontSize = juce::jmin (15.0f, (float) button.getHeight() * 0.75f);
     auto tickWidth = fontSize * 1.1f;
     
-    drawTickBox (g, button, 4.0f, ((float) button.getHeight() - tickWidth) * 0.5f,
-                 tickWidth, tickWidth,
-                 button.getToggleState(),
-                 button.isEnabled(),
-                 shouldDrawButtonAsHighlighted,
-                 shouldDrawButtonAsDown);
+    if (tickStyle == ToggleButtonTickStyle::Tick){
+        drawTickBox (g, button, 4.0f, ((float) button.getHeight() - tickWidth) * 0.5f,
+                     tickWidth, tickWidth,
+                     button.getToggleState(),
+                     button.isEnabled(),
+                     shouldDrawButtonAsHighlighted,
+                     shouldDrawButtonAsDown);
+    }
     
     g.setColour (button.findColour (juce::ToggleButton::textColourId));
     g.setFont (fontSize);
