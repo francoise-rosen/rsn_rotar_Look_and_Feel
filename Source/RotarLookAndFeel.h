@@ -15,8 +15,15 @@ namespace rosen
 {
     class RotarLookAndFeel : public juce::LookAndFeel_V4
     {
-        RotarLookAndFeel();
-        virtual ~RotarLookAndFeel();
+    public:
+        enum ColourStyle {Default};
+        RotarLookAndFeel (int colourStyle = 0);
+        virtual ~RotarLookAndFeel() override;
+      
+    private:
+        ColourStyle colourStyle;
         
+        /* Colours */
+        void setColourStyle();
     };
 }
