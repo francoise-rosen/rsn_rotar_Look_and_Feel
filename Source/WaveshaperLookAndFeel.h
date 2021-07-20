@@ -137,6 +137,10 @@ public:
     
     //================================================================================
     /** Buttons. */
+    void setToggleButtonTickStyle (WaveshaperLookAndFeel::ToggleButtonTickStyle style)
+    {
+        tickStyle = style;
+    }
     juce::Font getTextButtonFont (juce::TextButton& t, int buttonHeight) override;
     void drawButtonBackground (juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour, bool isButtonHighlighted, bool isButtonDown) override;
     void drawToggleButton (juce::Graphics& g, juce::ToggleButton& tb, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
