@@ -136,7 +136,7 @@ public:
     }
     
     //================================================================================
-    /** Buttons. */
+    /* Buttons. */
     void setToggleButtonTickStyle (WaveshaperLookAndFeel::ToggleButtonTickStyle style)
     {
         tickStyle = style;
@@ -146,7 +146,7 @@ public:
     void drawToggleButton (juce::Graphics& g, juce::ToggleButton& tb, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
     
     //================================================================================
-    /** ComboBox, PopupMenu, Font etc. */
+    /* ComboBox, PopupMenu, Font etc. */
     void drawComboBox (juce::Graphics& g, int width, int height, bool down, int buttonX, int buttonY, int buttonW, int buttonH, juce::ComboBox& box) override;
     //juce::Font getComboBoxFont (juce::ComboBox& box) override;
     void drawPopupMenuBackground (juce::Graphics& g, int width, int height) override;
@@ -165,19 +165,19 @@ public:
     }
     
     //================================================================================
-    /** Labels */
+    /* Labels */
     juce::Font getLabelFont (juce::Label& l) override;
     juce::BorderSize<int> getLabelBorderSize (juce::Label& l) override;
     void drawLabel (juce::Graphics& g, juce::Label& j) override;
     
 protected:
-    /**  Draw Rotary Slider thumb.
+    /*  Draw Rotary Slider thumb.
      Make it protected? a virtual? or make it helper, unless I want to use
      different thumbs in derived looks
      */
     virtual void drawRotaryThumb (juce::Graphics& g, const juce::Point<float> centre, const float& radius, const float& angle) noexcept
     {
-        /** Thumb dimentions (rectangle). */
+        /* Thumb dimentions (rectangle). */
         const float thumbWidth = radius * 0.27f;
         const float thumbHeight = radius * 0.33f;
         
@@ -200,11 +200,11 @@ private:
     ButtonShape buttonShape { ButtonShape::Circle };
     ToggleButtonTickStyle tickStyle { ToggleButtonTickStyle::Tick };
     
-    /** Draw Linear Slider thumb. */
+    /* Draw Linear Slider thumb. */
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveshaperLookAndFeel)
 };
 
-/** Slider functions.
+/* Slider functions.
     This is a middle rotary slider with outer rim, inner body, outer body, and a thumb.
     This is a plane version, so the inner body is placed right in the centre of the
     outer body.
@@ -212,7 +212,7 @@ private:
 inline void WaveshaperLookAndFeel::drawRotarySlider (juce::Graphics &g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, juce::Slider &slider)
 {
     //=========================================
-    /** TEMP. */
+    /* TEMP. */
     ColourScheme colourScheme = getMidnightColourScheme();
     g.setColour (colourScheme.getUIColour (ColourScheme::outline));
     //g.setColour (juce::Colours::yellow);

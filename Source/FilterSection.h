@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "WaveshaperLookAndFeel.h"
+#include "RotarLookAndFeel.h"
 
 //==============================================================================
 /*
@@ -49,7 +50,7 @@ public:
 private:
     const float edge {4.0f};
     juce::Colour localBackground;
-    WaveshaperLookAndFeel waveshaperLookAndFeel;
+    Rosen::RotarLookAndFeel rotarMainLookAndFeel;
     SmallRotaryLookAndFeel smallSliderLookAndFeel {true};
     FilterControls inputFilter;
     FilterControls outputFilter;
