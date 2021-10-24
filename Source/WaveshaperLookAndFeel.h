@@ -158,7 +158,7 @@ public:
     juce::Font getComboBoxFont (juce::ComboBox& box) override;
     void setFontHeight (const float& newHeight)
     {
-        /** we don't need any micro fonts. */
+        /* we don't need any micro fonts. */
         if (newHeight < 8.0f)
             fontHeight = 8.0f;
         fontHeight = newHeight;
@@ -427,7 +427,7 @@ inline void WaveshaperLookAndFeel::drawToggleButton (juce::Graphics& g, juce::To
     auto fontSize = juce::jmin (15.0f, (float) button.getHeight() * 0.75f);
     auto tickWidth = fontSize * 1.1f;
     
-    /** the button style must use buttonShape.
+    /* the button style must use buttonShape.
         So I need to change drawTickBox function to be able to draw different shapes.
      */
     if (tickStyle == ToggleButtonTickStyle::Tick){
@@ -461,7 +461,7 @@ inline void WaveshaperLookAndFeel::drawToggleButton (juce::Graphics& g, juce::To
                       juce::Justification::centredLeft, 10);
 }
 
-/** ComboBox methods. */
+/* ComboBox methods. */
 
 inline void WaveshaperLookAndFeel::drawComboBox (juce::Graphics& g, int width, int height, bool down, int buttonX, int buttonY, int buttonW, int buttonH, juce::ComboBox& box)
 {
@@ -730,7 +730,7 @@ class SmallRotaryLookAndFeel : public WaveshaperLookAndFeel
 {
 public:
     SmallRotaryLookAndFeel(const bool& b = false)
-    : symmetric {b}
+    : symmetry {b}
     {
         //setColour (juce::Slider::backgroundColourId, juce::Colours::silver.withAlpha (0.3f));
         //setColour (juce::Slider::backgroundColourId, juce::Colours::darkorange);
@@ -769,7 +769,7 @@ public:
         g.setColour (background);
         g.drawEllipse(outerRimXY.getX(), outerRimXY.getY(), outerRadius * 2.0f, outerRadius * 2.0f, juce::jmin (5.0f, outerRadius * 0.5f));
         
-        if (symmetric)
+        if (symmetry)
         {
             const float length = juce::jmin (5.0f, outerRadius * 0.2f);
             juce::Path pointer;
@@ -784,7 +784,7 @@ public:
         /** draw a track. */
         juce::Path track;
         
-        if (symmetric)
+        if (symmetry)
         {
             float mid = (rotaryStartAngle + rotaryEndAngle) * 0.5f;
             track.addCentredArc(centre.getX(),
@@ -820,14 +820,14 @@ public:
     }
     bool isSymmetrical() const
     {
-        return symmetric;
+        return symmetry;
     }
-    void setSymmetrical (bool b)
+    void setSymmetry (bool b)
     {
-        symmetric = b;
+        symmetry = b;
     }
 private:
-    bool symmetric;
+    bool symmetry;
     void drawThumbShadow (juce::Graphics& g, const juce::Point<float>& centre, const float& trackRadius, const float& radius, const float& angle)
     {
         juce::Point<float> thumbPoint { centre.getX() + trackRadius * std::cos (angle - juce::MathConstants<float>::halfPi), centre.getY() + trackRadius * std::sin (angle - juce::MathConstants<float>::halfPi) };
@@ -848,8 +848,8 @@ private:
 };
 
 //================================================================================
-/** Custom L+F for the symmetrical linear slider. */
-/** Define the default colours and shapes.
+/* Custom L+F for the symmetrical linear slider. */
+/* Define the default colours and shapes.
     Provide functions for user to customize those.
  Colours:
     - thumb colour (fills the round, triangle, arrow or rect) - default orange ?

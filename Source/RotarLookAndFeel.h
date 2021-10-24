@@ -13,6 +13,9 @@
 
 namespace Rosen
 {
+    //================================================================================
+    // RotarLookAndFeel - base for the Rotar Look and Feel style
+    //================================================================================
     class RotarLookAndFeel : public juce::LookAndFeel_V4
     {
     public:
@@ -28,6 +31,7 @@ namespace Rosen
         //================================================================================
         
         RotarLookAndFeel (int colourStyle = 0);
+        
         virtual ~RotarLookAndFeel() override;
         
         /* Managed objects */
@@ -38,32 +42,44 @@ namespace Rosen
         void drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, juce::Slider& slider) override;
         
         int getSliderThumbRadius (juce::Slider& slider) override;
+        
         void drawLinearSlider (juce::Graphics &, int x, int y, int width, int height, float sliderPos, float minSliderPos, float maxSliderPos, const juce::Slider::SliderStyle, juce::Slider &) override;
+        
         juce::Label* createSliderTextBox (juce::Slider& slider) override;
+        
         juce::Slider::SliderLayout getSliderLayout (juce::Slider& slider) override;
         
         /* Button  */
         //================================================================================
         
         void setToggleButtonTickStyle (RotarLookAndFeel::ToggleButtonTickStyle style);
+        
         juce::Font getTextButtonFont (juce::TextButton& t, int buttonHeight) override;
+        
         void drawButtonBackground (juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour, bool isButtonHighlighted, bool isButtonDown) override;
+        
         void drawToggleButton (juce::Graphics& g, juce::ToggleButton& tb, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
         
         //================================================================================
         /* ComboBox, PopupMenu, Font etc. */
         
         void drawComboBox (juce::Graphics& g, int width, int height, bool down, int buttonX, int buttonY, int buttonW, int buttonH, juce::ComboBox& box) override;
+        
         void drawPopupMenuBackground (juce::Graphics& g, int width, int height) override;
+        
         void positionComboBoxText (juce::ComboBox& box, juce::Label& label) override;
+        
         juce::Font getComboBoxFont (juce::ComboBox& box) override;
+        
         void setFontHeight (const float& newHeight);
         
         //================================================================================
         /* Label */
         
         juce::Font getLabelFont (juce::Label& l) override;
+        
         juce::BorderSize<int> getLabelBorderSize (juce::Label& l) override;
+        
         void drawLabel (juce::Graphics& g, juce::Label& j) override;
         
         /* Miscellaneous */
@@ -72,7 +88,9 @@ namespace Rosen
         //================================================================================
         
         void setThumbGradientTargetColour (const juce::Colour& colour);
+        
         void setTrackGradientTargetColour (const juce::Colour& colour);
+        
         void setThumbShadowColour (const juce::Colour& colour);
         
         /* Setters */
@@ -83,6 +101,7 @@ namespace Rosen
             Delegate drowing the arc to other methods?
          */
         void setOutlineType (OutlineType outlineType);
+        
         void setThumbPosition (bool isOnTop);
         
         /* If outline is not visible, only sliderFill and sliderThumb
@@ -90,7 +109,9 @@ namespace Rosen
          */
         
         bool isOutlineVisible() const;
+        
         void setOutlineVisibility (bool isVisible);
+        
         void setTrackVisibility (bool isVisible);
         
         /* Getters */
@@ -129,5 +150,35 @@ namespace Rosen
         void setColourStyle();
         
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RotarLookAndFeel)
+    };
+    
+    //================================================================================
+    /* Rotary  sliders with symmetrical view */
+    //================================================================================
+    class SymmetricalRotarySliderLookAndFeel : public RotarLookAndFeel {
+    public:
+        SymmetricalRotarySliderLookAndFeel();
+        virtual ~SymmetricalRotarySliderLookAndFeel() override;
+    };
+    
+    //================================================================================
+    /* Linear sliders with symmetrical view */
+    //================================================================================
+    class SymmetricalLinearSliderLookAndFeel : public RotarLookAndFeel {
+    public:
+        SymmetricalLinearSliderLookAndFeel();
+        virtual ~SymmetricalLinearSliderLookAndFeel() override;
+        
+    };
+    //================================================================================
+    /* Rotary and Linear Sliders with symmetrical view */
+    //================================================================================
+    class SymmetricalSliderLookAndFeel : public SymmetricalRotarySliderLookAndFeel,
+                                         public SymmetricalLinearSliderLookAndFeel
+    {
+    public:
+        SymmetricalSliderLookAndFeel();
+        virtual ~SymmetricalSliderLookAndFeel() override;
+        
     };
 }

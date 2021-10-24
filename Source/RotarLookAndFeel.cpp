@@ -496,4 +496,13 @@ namespace Rosen
         p.applyTransform (juce::AffineTransform::rotation (angle).translated (centre));
         g.fillPath (p);
     }
+    
+    //================================================================================
+    /* Linear sliders with symmetrical view */
+    //================================================================================
+
+    SymmetricalLinearSliderLookAndFeel::SymmetricalLinearSliderLookAndFeel() {}
+    SymmetricalLinearSliderLookAndFeel::~SymmetricalLinearSliderLookAndFeel() {}
+        
+
 }
