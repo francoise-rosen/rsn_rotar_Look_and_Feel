@@ -282,7 +282,7 @@ namespace rosen
     void RotarLookAndFeel::drawButtonBackground (juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour, bool isButtonHighlighted, bool isButtonDown)
     {
         auto area = button.getLocalBounds().toFloat().reduced (1.0f);
-        auto cornerSize = juce::jmin (6.0f, juce::jmin (area.getWidth(), area.getHeight()) * 0.25f);
+        //auto cornerSize = juce::jmin (6.0f, juce::jmin (area.getWidth(), area.getHeight()) * 0.25f);
         auto baseColour = backgroundColour.withMultipliedSaturation ((button.hasKeyboardFocus (true) ? 1.3f : 0.9f)).withMultipliedAlpha((button.isEnabled()) ? 1.0f : 0.5f);
         if (isButtonDown || isButtonHighlighted)
             baseColour = baseColour.contrasting (isButtonDown ? 0.2f : 0.05f);
@@ -323,8 +323,8 @@ namespace rosen
         
         else if (buttonShape == ButtonShape::Custom)
         {
-            /** rounded triangle with direction. */
-            /** button to fit the shape of the environment. */
+            /* rounded triangle with direction. */
+            /* button to fit the shape of the environment. */
         }
     }
     
@@ -366,6 +366,46 @@ namespace rosen
                           button.getLocalBounds().withTrimmedLeft (juce::roundToInt (tickWidth) + 10)
                           .withTrimmedRight (2),
                           juce::Justification::centredLeft, 10);
+    }
+    
+    //================================================================================
+    /* Label */
+    
+   juce::Font RotarLookAndFeel::getLabelFont (juce::Label& l)
+    {
+        return l.getFont();
+    }
+    
+    juce::BorderSize<int> RotarLookAndFeel::getLabelBorderSize(juce::Label& l)
+    {
+        return l.getBorderSize();
+    }
+
+    void RotarLookAndFeel::drawLabel (juce::Graphics& g, juce::Label& label)
+    {
+        // fill the area
+        g.fillAll (label.findColour (juce::Label::backgroundColourId));
+
+        // set the text properties
+        if (! label.isBeingEdited())
+        {
+            auto alpha = (label.isEnabled()) ? 1.0f: 0.2f;
+            const juce::Font font {getLabelFont (label)};
+            g.setColour (label.findColour (juce::Label::textColourId).withMultipliedAlpha (alpha));
+            g.setFont (font);
+            /** Draw the text. */
+            auto textArea = getLabelBorderSize (label).subtractedFrom     (label.getLocalBounds());
+            g.drawFittedText (label.getText(), textArea, label.getJustificationType(), juce::jmax (1, static_cast<int> (static_cast<float>(textArea.getHeight()) / font.getHeight())), label.getMinimumHorizontalScale() );
+            g.setColour (label.findColour (juce::Label::outlineColourId).withMultipliedAlpha (alpha));
+        }
+        else if (label.isEnabled())
+        {
+            g.setColour (label.findColour (juce::Label::outlineColourId));
+        }
+
+        // draw a rounded rectangle
+        //g.setColour (label.findColour (juce::Label::outlineColourId));
+        g.drawRect (label.getLocalBounds());
     }
     
     //================================================================================

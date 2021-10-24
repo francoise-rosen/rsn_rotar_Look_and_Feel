@@ -376,7 +376,7 @@ inline juce::Font WaveshaperLookAndFeel::getTextButtonFont (juce::TextButton& tb
 inline void WaveshaperLookAndFeel::drawButtonBackground (juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour, bool isButtonHighlighted, bool isButtonDown)
 {
     auto area = button.getLocalBounds().toFloat().reduced (1.0f);
-    auto cornerSize = juce::jmin (6.0f, juce::jmin (area.getWidth(), area.getHeight()) * 0.25f);
+   // auto cornerSize = juce::jmin (6.0f, juce::jmin (area.getWidth(), area.getHeight()) * 0.25f);
     auto baseColour = backgroundColour.withMultipliedSaturation ((button.hasKeyboardFocus (true) ? 1.3f : 0.9f)).withMultipliedAlpha((button.isEnabled()) ? 1.0f : 0.5f);
     if (isButtonDown || isButtonHighlighted)
         baseColour = baseColour.contrasting (isButtonDown ? 0.2f : 0.05f);
@@ -903,7 +903,7 @@ public:
         juce::Point<float> startPos { slider.isHorizontal() ? sliderX : sliderX + sliderWidth * 0.5f, slider.isHorizontal() ? sliderY + sliderHeight * 0.5f : sliderY + sliderHeight};
         juce::Point<float> endPos { slider.isHorizontal() ? sliderX + sliderWidth : sliderX + sliderWidth * 0.5f, slider.isHorizontal() ? sliderY + sliderHeight * 0.5f : sliderY };
         juce::Point<float> midPos { sliderX + sliderWidth * 0.5f, sliderY + sliderHeight * 0.5f };
-        juce::Point<float> minPoint = startPos;
+       // juce::Point<float> minPoint = startPos;
         juce::Point<float> maxPoint { slider.isHorizontal() ? sliderPos : sliderX + sliderWidth * 0.5f, slider.isHorizontal() ? sliderY + sliderHeight * 0.5f : sliderPos };
         
         /** Symmetrical bar. */

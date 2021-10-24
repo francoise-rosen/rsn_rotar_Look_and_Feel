@@ -30,6 +30,7 @@ namespace rosen
         virtual ~RotarLookAndFeel() override;
         
         /* Slider */
+        
         //================================================================================
         void drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, juce::Slider& slider) override;
         
@@ -38,15 +39,18 @@ namespace rosen
         juce::Label* createSliderTextBox (juce::Slider& slider) override;
         juce::Slider::SliderLayout getSliderLayout (juce::Slider& slider) override;
         
-        //================================================================================
         /* Button  */
+        //================================================================================
+        
         void setToggleButtonTickStyle (RotarLookAndFeel::ToggleButtonTickStyle style);
+        juce::Font getFont() const;
         juce::Font getTextButtonFont (juce::TextButton& t, int buttonHeight) override;
         void drawButtonBackground (juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour, bool isButtonHighlighted, bool isButtonDown) override;
         void drawToggleButton (juce::Graphics& g, juce::ToggleButton& tb, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
         
         /* Special colour functions. */
         //================================================================================
+        
         void setThumbGradientTargetColour (const juce::Colour& colour);
         void setTrackGradientTargetColour (const juce::Colour& colour);
         void setThumbShadowColour (const juce::Colour& colour);
@@ -72,15 +76,13 @@ namespace rosen
         //================================================================================
         /* ComboBox, PopupMenu, Font etc. */
         void drawComboBox (juce::Graphics& g, int width, int height, bool down, int buttonX, int buttonY, int buttonW, int buttonH, juce::ComboBox& box) override;
-        //juce::Font getComboBoxFont (juce::ComboBox& box) override;
-        void drawPopupMenuBackground (juce::Graphics& g, int width, int height) override;
-        void positionComboBoxText (juce::ComboBox& box, juce::Label& label) override;
-        juce::Font getFont() const;
+//        void drawPopupMenuBackground (juce::Graphics& g, int width, int height) override;
+//        void positionComboBoxText (juce::ComboBox& box, juce::Label& label) override;
         juce::Font getComboBoxFont (juce::ComboBox& box) override;
         void setFontHeight (const float& newHeight);
         
         //================================================================================
-        /* Labels */
+        /* Label */
         juce::Font getLabelFont (juce::Label& l) override;
         juce::BorderSize<int> getLabelBorderSize (juce::Label& l) override;
         void drawLabel (juce::Graphics& g, juce::Label& j) override;
