@@ -12,9 +12,9 @@
 #pragma once
 #include "Arrow.h"
 
-/** Error when h + cpp, juce not found or expected class name error. */
+/* Error when h + cpp, juce not found or expected class name error. */
 
-/** Rotrary slider types:
+/* Rotrary slider types:
     1. Big slider (default slider + inner and outer rim, perhaps different thumb)
     2. Default slider implemented in WaveshaperLookAndFeel - 3 coulours
     3. Small slider - 2 colours
@@ -50,7 +50,7 @@ class WaveshaperLookAndFeel : public juce::LookAndFeel_V4
 public:
     WaveshaperLookAndFeel()
     {
-        /** Slider default colours */
+        /* Slider default colours */
         setColour (juce::Slider::backgroundColourId, juce::Colours::darkcyan);
         setColour (juce::Slider::trackColourId, juce::Colours::cyan);
         setColour (juce::Slider::thumbColourId, juce::Colours::darkcyan);
@@ -86,7 +86,7 @@ public:
     enum class ButtonShape { RoundedRect, Rect, Circle, Custom };
     enum class ToggleButtonTickStyle { Fill, Tick, Cross };
 
-    /** Slider functions. */
+    /* Slider functions. */
     //================================================================================
     void drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, juce::Slider& slider) override;
     
@@ -95,7 +95,7 @@ public:
     juce::Label* createSliderTextBox (juce::Slider& slider) override;
     juce::Slider::SliderLayout getSliderLayout (juce::Slider& slider) override;
     
-    /** Special colour functions. */
+    /* Special colour functions. */
     //================================================================================
     void setThumbGradientTargetColour (const juce::Colour& colour);
     void setTrackGradientTargetColour (const juce::Colour& colour);
@@ -503,7 +503,7 @@ inline void WaveshaperLookAndFeel::positionComboBoxText (juce::ComboBox& box, ju
     label.setFont (getComboBoxFont (box));
 }
 
-/** Label. */
+/* Label. */
 inline juce::Font WaveshaperLookAndFeel::getLabelFont (juce::Label& l)
 {
     return l.getFont();
@@ -552,7 +552,7 @@ inline void WaveshaperLookAndFeel::drawPopupMenuBackground (juce::Graphics& g, i
 }
 
 //================================================================================
-/** Custom L+F for symmetrical knob. */
+/* Custom L+F for symmetrical knob. */
 
 class SymmetricalRotaryLookAndFeel : public WaveshaperLookAndFeel
 {

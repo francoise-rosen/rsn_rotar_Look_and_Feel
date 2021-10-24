@@ -11,27 +11,30 @@
 #pragma once
 #include <JuceHeader.h>
 
-namespace rosen
+namespace Rosen
 {
     class RotarLookAndFeel : public juce::LookAndFeel_V4
     {
     public:
         /* Public Types */
         //================================================================================
-        enum class OutlineType { ellipse, arcNormal, arcWithArrows, arcWithCornersOut,
-            arcWithCornersIn, arcThreePointerEmpty, arcThreePointerFilled, noOutline };
+        enum class OutlineType { Ellipse, ArcNormal, ArcWithArrows, ArcWithCornersOut,
+            ArcWithCornersIn, ArcThreePointerEmpty, ArcThreePointerFilled, NoOutline };
         enum class ButtonShape { RoundedRect, Rect, Circle, Custom };
         enum class ToggleButtonTickStyle { Fill, Tick, Cross };
         enum ColourStyle {Default};
         
         /* Constructors */
         //================================================================================
+        
         RotarLookAndFeel (int colourStyle = 0);
         virtual ~RotarLookAndFeel() override;
         
-        /* Slider */
+        /* Managed objects */
         
+        /* Slider */
         //================================================================================
+        
         void drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, juce::Slider& slider) override;
         
         int getSliderThumbRadius (juce::Slider& slider) override;
@@ -43,10 +46,27 @@ namespace rosen
         //================================================================================
         
         void setToggleButtonTickStyle (RotarLookAndFeel::ToggleButtonTickStyle style);
-        juce::Font getFont() const;
         juce::Font getTextButtonFont (juce::TextButton& t, int buttonHeight) override;
         void drawButtonBackground (juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour, bool isButtonHighlighted, bool isButtonDown) override;
         void drawToggleButton (juce::Graphics& g, juce::ToggleButton& tb, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
+        
+        //================================================================================
+        /* ComboBox, PopupMenu, Font etc. */
+        
+        void drawComboBox (juce::Graphics& g, int width, int height, bool down, int buttonX, int buttonY, int buttonW, int buttonH, juce::ComboBox& box) override;
+        void drawPopupMenuBackground (juce::Graphics& g, int width, int height) override;
+        void positionComboBoxText (juce::ComboBox& box, juce::Label& label) override;
+        juce::Font getComboBoxFont (juce::ComboBox& box) override;
+        void setFontHeight (const float& newHeight);
+        
+        //================================================================================
+        /* Label */
+        
+        juce::Font getLabelFont (juce::Label& l) override;
+        juce::BorderSize<int> getLabelBorderSize (juce::Label& l) override;
+        void drawLabel (juce::Graphics& g, juce::Label& j) override;
+        
+        /* Miscellaneous */
         
         /* Special colour functions. */
         //================================================================================
@@ -73,19 +93,10 @@ namespace rosen
         void setOutlineVisibility (bool isVisible);
         void setTrackVisibility (bool isVisible);
         
+        /* Getters */
         //================================================================================
-        /* ComboBox, PopupMenu, Font etc. */
-        void drawComboBox (juce::Graphics& g, int width, int height, bool down, int buttonX, int buttonY, int buttonW, int buttonH, juce::ComboBox& box) override;
-//        void drawPopupMenuBackground (juce::Graphics& g, int width, int height) override;
-//        void positionComboBoxText (juce::ComboBox& box, juce::Label& label) override;
-        juce::Font getComboBoxFont (juce::ComboBox& box) override;
-        void setFontHeight (const float& newHeight);
         
-        //================================================================================
-        /* Label */
-        juce::Font getLabelFont (juce::Label& l) override;
-        juce::BorderSize<int> getLabelBorderSize (juce::Label& l) override;
-        void drawLabel (juce::Graphics& g, juce::Label& j) override;
+        juce::Font getFont() const;
         
     protected:
         /* Draw Rotary Slider thumb.
@@ -94,7 +105,10 @@ namespace rosen
          */
         virtual void drawRotaryThumb (juce::Graphics& g, const juce::Point<float> centre, const float& radius, const float& angle) noexcept;
         
-        // set default font here
+        /* Draw Linear Slider thumb. */
+        // todo!
+        
+        /* default font properties */
         float fontHeight {14.0f};
         juce::Font defaultFont  {"Monaco", "Plain", fontHeight};
       
@@ -107,14 +121,13 @@ namespace rosen
         bool outlineVisible {true};
         bool isThumbOnTop {true};
         bool isTrackVisible {false};
-        OutlineType localOutlineType {OutlineType::arcNormal};
+        OutlineType localOutlineType {OutlineType::ArcNormal};
         ButtonShape buttonShape { ButtonShape::Circle };
         ToggleButtonTickStyle tickStyle { ToggleButtonTickStyle::Tick };
         
         /* Private methods */
         void setColourStyle();
         
-        /* Draw Linear Slider thumb. */
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RotarLookAndFeel)
     };
 }

@@ -10,7 +10,7 @@
 
 #include "RotarLookAndFeel.h"
 
-namespace rosen
+namespace Rosen
 {
     RotarLookAndFeel::RotarLookAndFeel(int colourStyle)
     :colourStyle {static_cast<ColourStyle>(colourStyle)}
@@ -24,7 +24,7 @@ namespace rosen
         switch (colourStyle) {
             case Default:
             {
-                /** Slider default colours */
+                /* Slider default colours */
                 setColour (juce::Slider::backgroundColourId, juce::Colours::darkcyan);
                 setColour (juce::Slider::trackColourId, juce::Colours::cyan);
                 setColour (juce::Slider::thumbColourId, juce::Colours::darkcyan);
@@ -34,64 +34,24 @@ namespace rosen
                 setColour (juce::Slider::textBoxBackgroundColourId, juce::Colours::darkcyan.withBrightness (0.5f));
                 setColour (juce::Slider::textBoxOutlineColourId, juce::Colours::red.withBrightness (0.2f));
             
-                /** ComboBox and PopupMenu defaults. */
+                /* ComboBox and PopupMenu defaults. */
                 setColour (juce::ComboBox::backgroundColourId, juce::Colours::black);
                 setColour (juce::ComboBox::outlineColourId, juce::Colours::white.withAlpha (0.75f));
                 setColour (juce::PopupMenu::backgroundColourId, juce::Colours::black.withAlpha (0.5f));
                 
-                /** Label. */
+                /* Label. */
                 setColour (juce::Label::backgroundColourId, juce::Colours::darkblue);
                 setColour (juce::Label::textColourId, juce::Colours::silver.withBrightness (0.5f));
                 setColour (juce::Label::outlineColourId, juce::Colours::black.withAlpha(0.2f));
                 setColour (juce::Label::backgroundWhenEditingColourId, juce::Colours::blue.withAlpha (0.5f));
                 
-                /** Button. */
+                /* Button. */
                 setColour (juce::TextButton::buttonColourId, juce::Colours::silver.darker());
                 setColour (juce::TextButton::buttonOnColourId, juce::Colours::orange);
                 setColour (juce::ToggleButton::textColourId, juce::Colours::black);
                 setColour (juce::ToggleButton::tickColourId, juce::Colours::orange);
             }
         }
-    }
-    
-    /* Special colour functions. */
-    //================================================================================
-    
-    
-    /* Setters */
-    //================================================================================
-    
-    /* Test this (unit test).
-        The drawing may overcomplicate the drawRotary method.
-        Delegate drowing the arc to other methods?
-     */
-    void RotarLookAndFeel::setOutlineType (OutlineType outlineType)
-    {
-        localOutlineType = outlineType;
-    }
-    
-    void RotarLookAndFeel::setThumbPosition (bool isOnTop)
-    {
-        isThumbOnTop = isOnTop;
-    }
-    
-    /* If outline is not visible, only sliderFill and sliderThumb
-     are visible, but outer body (outline is still drown, it's just transparent.
-     */
-    
-    bool RotarLookAndFeel::isOutlineVisible() const
-    {
-        return outlineVisible;
-    }
-    
-    void RotarLookAndFeel::setOutlineVisibility (bool isVisible)
-    {
-        outlineVisible = isVisible;
-    }
-    
-    void RotarLookAndFeel::setTrackVisibility (bool isVisible)
-    {
-        isTrackVisible = isVisible;
     }
     
     //================================================================================
@@ -132,7 +92,7 @@ namespace rosen
         
         if (outlineVisible)
         {
-            /**
+            /*
                - I want to draw starting and ending at different angles from this in input
                - I want to use outline type that can be set by caller
                - delegate this to other functions, maybe helpers?
@@ -437,6 +397,25 @@ namespace rosen
         
     }
     
+    void RotarLookAndFeel::drawPopupMenuBackground (juce::Graphics& g, int width, int height)
+    {
+        g.fillAll (findColour (juce::PopupMenu::backgroundColourId));
+        
+    #if ! JUCE_MAC
+        g.setColour (findColour (PopupMenu::textColourId).withAlpha (0.6f));
+        g.drawRect (0, 0, width, height);
+    #endif
+    }
+    
+    void RotarLookAndFeel::positionComboBoxText (juce::ComboBox& box, juce::Label& label)
+    {
+        label.setColour (juce::Label::outlineColourId, box.findColour (juce::ComboBox::backgroundColourId).withMultipliedAlpha(0.0f));
+        label.setBounds (1, 1,
+                         box.getWidth() - 10,
+                         box.getHeight() - 2);
+        label.setFont (getComboBoxFont (box));
+    }
+    
     juce::Font RotarLookAndFeel::getComboBoxFont (juce::ComboBox& box)
     {
         return defaultFont.withHeight (juce::jmin (fontHeight, box.getHeight() * 0.72f));
@@ -449,6 +428,62 @@ namespace rosen
             fontHeight = 8.0f;
         fontHeight = newHeight;
     }
+    
+    /* Miscellaneous */
+    
+    /* Special colour functions. */
+    //================================================================================
+    void RotarLookAndFeel::setThumbGradientTargetColour (const juce::Colour& colour)
+    { //todo
+        
+    }
+    void RotarLookAndFeel::setTrackGradientTargetColour (const juce::Colour& colour)
+    { //todo
+        
+    }
+    void RotarLookAndFeel::setThumbShadowColour (const juce::Colour& colour)
+    { //todo
+        
+    }
+    
+    /* Setters */
+    //================================================================================
+    
+    /* Test this (unit test).
+        The drawing may overcomplicate the drawRotary method.
+        Delegate drowing the arc to other methods?
+     */
+    void RotarLookAndFeel::setOutlineType (OutlineType outlineType)
+    {
+        localOutlineType = outlineType;
+    }
+    
+    void RotarLookAndFeel::setThumbPosition (bool isOnTop)
+    {
+        isThumbOnTop = isOnTop;
+    }
+    
+    /* If outline is not visible, only sliderFill and sliderThumb
+     are visible, but outer body (outline is still drown, it's just transparent.
+     */
+    
+    bool RotarLookAndFeel::isOutlineVisible() const
+    {
+        return outlineVisible;
+    }
+    
+    void RotarLookAndFeel::setOutlineVisibility (bool isVisible)
+    {
+        outlineVisible = isVisible;
+    }
+    
+    void RotarLookAndFeel::setTrackVisibility (bool isVisible)
+    {
+        isTrackVisible = isVisible;
+    }
+    
+    /* Protected */
+    //================================================================================
     
     void RotarLookAndFeel::drawRotaryThumb (juce::Graphics& g, const juce::Point<float> centre, const float& radius, const float& angle) noexcept
     {
