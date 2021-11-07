@@ -27,7 +27,7 @@ namespace Rosen
             ArcWithCornersIn, ArcThreePointerEmpty, ArcThreePointerFilled, NoOutline };
         enum class ButtonShape { RoundedRect, Rect, Circle, Custom };
         enum class ToggleButtonTickStyle { Fill, Tick, Cross };
-        enum ColourStyle {Default, BlackWhite, Cyan};
+        enum ColourStyle {Default, BlackWhite, SilverBlack, Cyan, Uranus};
         
         //================================================================================
         /* Constructors */
@@ -116,6 +116,8 @@ namespace Rosen
         
         void setTrackVisibility (bool isVisible);
         
+        void setComponentAreaOutlinerVisibility(bool isVisible);
+        
         /* Getters */
         //================================================================================
         
@@ -127,6 +129,9 @@ namespace Rosen
          different thumbs in derived looks
          */
         virtual void drawRotaryThumb (juce::Graphics& g, const juce::Point<float> centre, const float& radius, const float& angle) noexcept;
+        
+        bool isComponentAreaOutlinerVisible {true};
+        virtual void drawComponentArea(juce::Graphics& g, const juce::Rectangle<float>& area, juce::Component* component) noexcept;
         
         /* Draw Linear Slider thumb. */
         // todo!
@@ -155,6 +160,40 @@ namespace Rosen
     };
     
     //================================================================================
+    /* Rotary Big sliders */
+    //================================================================================
+    class RotarBigRotaryLookAndFeel : public RotarLookAndFeel {
+    public:
+        
+        //================================================================================
+        /* Public Types */
+        
+        enum class RotaryBackgroundFillShape { Circular, Rectangular, Ellipse };
+        
+        //================================================================================
+        /* Constructors */
+        
+        RotarBigRotaryLookAndFeel(unsigned char colourStyle = 0x3);
+        virtual ~RotarBigRotaryLookAndFeel();
+        
+        //================================================================================
+        /* Big Rotary Slider public methods */
+        
+        virtual void drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional,                             float rotaryStartAngle, float rotaryEndAngle, juce::Slider& slider) override;
+        
+        void setRotaryBackgroundFeelShape (const RotaryBackgroundFillShape shape);
+        
+    private:
+        const float knobToArcScaleFactor {0.72f};
+        RotaryBackgroundFillShape backgroundFill {RotaryBackgroundFillShape::Circular}; /**< background fill shape flag*/
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RotarBigRotaryLookAndFeel)
+    };
+    
+    //================================================================================
+    /* Rotary Small sliders */
+    //================================================================================
+    
+    //================================================================================
     /* Rotary sliders with symmetrical view */
     //================================================================================
     class RotarSymmetricalRotaryLookAndFeel : public RotarLookAndFeel {
@@ -176,6 +215,15 @@ namespace Rosen
     //================================================================================
     class RotarSymmetricalLinearLookAndFeel : public RotarLookAndFeel {
     public:
+        //================================================================================
+        /* Public Types */
+        
+        enum class PointerFill { NoFill, Fill, FillGradient };
+        enum class TriangleFillType { OneColour, Triangles, Pencil, Gradient };
+        enum class PointerType { Triangle, Circle, Rectangle, Arrow };
+        
+        //================================================================================
+        /* Constructors */
         RotarSymmetricalLinearLookAndFeel();
         virtual ~RotarSymmetricalLinearLookAndFeel() override;
         

@@ -56,8 +56,20 @@ namespace Rosen
             {
                 /* Slider default colours */
                 setColour (juce::Slider::rotarySliderOutlineColourId, juce::Colours::white);
+                setColour (juce::Slider::rotarySliderFillColourId, juce::Colours::white);
+                setColour (juce::Slider::backgroundColourId, juce::Colours::darkcyan);
+                setColour (juce::Slider::trackColourId, juce::Colours::cyan);
+                setColour (juce::Slider::thumbColourId, juce::Colours::white);
+                break;
+            }
+            case SilverBlack:
+            {
+                /* Slider default colours */
+                setColour (juce::Slider::rotarySliderOutlineColourId, juce::Colours::silver.brighter());
                 setColour (juce::Slider::rotarySliderFillColourId, juce::Colours::silver.brighter());
+                setColour (juce::Slider::trackColourId, juce::Colours::silver.darker());
                 setColour (juce::Slider::thumbColourId, juce::Colours::silver.brighter());
+                
                 break;
             }
                 
@@ -66,6 +78,16 @@ namespace Rosen
                 setColour (juce::Slider::backgroundColourId, juce::Colours::blue.withBrightness (0.2f));
                 setColour (juce::Slider::rotarySliderFillColourId, juce::Colours::blue.withBrightness (0.2f));
                 setColour (juce::Slider::rotarySliderOutlineColourId, juce::Colours::darkcyan);
+                break;
+            }
+                
+            case Uranus:
+            {
+                /* add shades */
+                setColour (juce::Slider::backgroundColourId, juce::Colours::blue.withBrightness (0.2f));
+                setColour (juce::Slider::rotarySliderFillColourId, juce::Colours::blue.withBrightness (0.2f));
+                setColour (juce::Slider::rotarySliderOutlineColourId, juce::Colours::darkcyan);
+                setColour (juce::Slider::thumbColourId, juce::Colours::darkcyan);
                 break;
             }
             default:
@@ -443,7 +465,7 @@ namespace Rosen
     
     void RotarLookAndFeel::setFontHeight (const float& newHeight)
     {
-        /** we don't need any micro fonts. */
+        /* we don't need any micro fonts. */
         if (newHeight < 8.0f)
             fontHeight = 8.0f;
         fontHeight = newHeight;
@@ -502,6 +524,10 @@ namespace Rosen
         isTrackVisible = isVisible;
     }
     
+    void RotarLookAndFeel::setComponentAreaOutlinerVisibility(bool isVisible) {
+        isComponentAreaOutlinerVisible = isVisible;
+    }
+    
     /* Protected */
     //================================================================================
     
@@ -515,6 +541,95 @@ namespace Rosen
         p.addRectangle (-thumbWidth * 0.5, -radius * 0.87f, thumbWidth, thumbHeight);
         p.applyTransform (juce::AffineTransform::rotation (angle).translated (centre));
         g.fillPath (p);
+    }
+    
+    void RotarLookAndFeel::drawComponentArea(juce::Graphics& g, const juce::Rectangle<float>& area, juce::Component* component) noexcept
+    {
+        g.setColour (juce::Colours::orange);
+        g.drawRect (area);
+//        g.setColour (slider.findColour (juce::Slider::backgroundColourId));
+//        g.drawRect (slider.getLocalBounds());
+    }
+    
+    //================================================================================
+    /* Rotary Big Slider */
+    //================================================================================
+    
+    //================================================================================
+    /* Constructors */
+    
+    RotarBigRotaryLookAndFeel::RotarBigRotaryLookAndFeel(unsigned char colourStyle)
+    :RotarLookAndFeel(colourStyle) {}
+    RotarBigRotaryLookAndFeel::~RotarBigRotaryLookAndFeel() {}
+    
+    void RotarBigRotaryLookAndFeel::drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height,
+                                                      float sliderPosProportional, float rotaryStartAngle,
+                                                      float rotaryEndAngle, juce::Slider& slider)
+    {
+        
+        auto background = slider.findColour (juce::Slider::backgroundColourId);
+        auto fill = slider.findColour (juce::Slider::rotarySliderFillColourId);
+        auto outline = slider.findColour (juce::Slider::rotarySliderOutlineColourId);
+        auto thumb = slider.findColour (juce::Slider::thumbColourId);
+        juce::Point<float> centre {x + width * 0.5f, y + height * 0.5f};
+        auto area = juce::Rectangle<int> (x, y, width, height).toFloat().reduced (edge);
+        auto angle = rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
+        
+        if (isComponentAreaOutlinerVisible)
+            drawComponentArea(g, area, &slider);
+        
+        /* Outer body. */
+        float outerRimArcWidth {3.0f};
+        float outerRimRadius {juce::jmin (area.getWidth() * 0.5f, area.getHeight() * 0.5f) - ((outerRimArcWidth > edge - 1.0f) ? outerRimArcWidth - edge - 1.0f : 0.0f)};
+        juce::Point<float> outerRimXY {centre.getX() - outerRimRadius, centre.getY() - outerRimRadius};
+        
+        g.setColour (background);
+        g.drawRect (juce::Rectangle<int> (x, y, width, height));
+        if (backgroundFill == RotaryBackgroundFillShape::Circular)
+        {
+            g.fillEllipse (outerRimXY.getX(), outerRimXY.getY(), outerRimRadius * 2.0f, outerRimRadius * 2.0f);
+        }
+        else if (backgroundFill == RotaryBackgroundFillShape::Rectangular)
+        {
+            g.fillRect (area);
+        }
+        
+        /* Arc section. */
+//        float arcRadius = outerRimRadius - ( (edge > outerRimArcWidth) ? edge : outerRimArcWidth + edge);
+        float arcRadius = outerRimRadius * 0.92f;
+        juce::Point<float> arcXY { centre.getX() - arcRadius, centre.getY() - arcRadius };
+        juce::Path arc;
+        arc.addCentredArc (centre.getX(),
+                           centre.getY(),
+                           arcRadius,
+                           arcRadius,
+                           0.0f,
+                           rotaryStartAngle,
+                           rotaryEndAngle,
+                           true);
+        g.setColour (outline);
+        g.strokePath (arc, { outerRimArcWidth, juce::PathStrokeType::curved, juce::PathStrokeType::rounded });
+        /* The thumb. */
+        g.setColour (thumb);
+        drawRotaryThumb(g, centre, arcRadius, angle);
+        
+        /* The knob. */
+        const float knobRadius = arcRadius * knobToArcScaleFactor;
+        juce::Point<float> knobXY { centre.getX() - knobRadius, centre.getY() - knobRadius };
+        juce::ColourGradient gradient {
+            fill,
+            centre,
+            thumb,
+            centre.withX (centre.getX() - knobRadius),
+            true
+        };
+        g.setGradientFill (gradient);
+        g.fillEllipse (knobXY.getX(), knobXY.getY(), knobRadius * 2.0f, knobRadius * 2.0f);
+    }
+    
+    void RotarBigRotaryLookAndFeel::setRotaryBackgroundFeelShape (const RotaryBackgroundFillShape shape)
+    {
+        backgroundFill = shape;
     }
     
     //================================================================================
@@ -543,7 +658,7 @@ namespace Rosen
         const float rimWidth = 2.0f;
         juce::Point<float> outerRimXY {centre.getX() - outerRadius, centre.getY() - outerRadius};
         
-        /** Inner body. */
+        /* Inner body. */
         const float innerRadius = outerRadius * knobToArcScaleFactor;
         juce::Point<float> innerRimXY {centre.getX() - innerRadius, centre.getY() - innerRadius};
         

@@ -71,7 +71,8 @@ private:
     juce::Slider saturationSlider {juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::TextBoxBelow};
     juce::Colour localBackground;
     WaveshaperLookAndFeel customLookAndFeel;
-    RotarySliderBigLookAndFeel rotaryLookAndFeel;
+//    RotarySliderBigLookAndFeel rotaryLookAndFeel;
+    Rosen::RotarBigRotaryLookAndFeel rotaryLookAndFeel {0x4};
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SaturationSection)
 };

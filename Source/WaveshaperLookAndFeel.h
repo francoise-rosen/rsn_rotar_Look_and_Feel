@@ -12,8 +12,6 @@
 #pragma once
 #include "Arrow.h"
 
-/* Error when h + cpp, juce not found or expected class name error. */
-
 /* Rotrary slider types:
     1. Big slider (default slider + inner and outer rim, perhaps different thumb)
     2. Default slider implemented in WaveshaperLookAndFeel - 3 coulours
@@ -60,18 +58,18 @@ public:
         setColour (juce::Slider::textBoxBackgroundColourId, juce::Colours::darkcyan.withBrightness (0.5f));
         setColour (juce::Slider::textBoxOutlineColourId, juce::Colours::red.withBrightness (0.2f));
     
-        /** ComboBox and PopupMenu defaults. */
+        /* ComboBox and PopupMenu defaults. */
         setColour (juce::ComboBox::backgroundColourId, juce::Colours::black);
         setColour (juce::ComboBox::outlineColourId, juce::Colours::white.withAlpha (0.75f));
         setColour (juce::PopupMenu::backgroundColourId, juce::Colours::black.withAlpha (0.5f));
         
-        /** Label. */
+        /* Label. */
         setColour (juce::Label::backgroundColourId, juce::Colours::darkblue);
         setColour (juce::Label::textColourId, juce::Colours::silver.withBrightness (0.5f));
         setColour (juce::Label::outlineColourId, juce::Colours::black.withAlpha(0.2f));
         setColour (juce::Label::backgroundWhenEditingColourId, juce::Colours::blue.withAlpha (0.5f));
         
-        /** Button. */
+        /* Button. */
         setColour (juce::TextButton::buttonColourId, juce::Colours::silver.darker());
         setColour (juce::TextButton::buttonOnColourId, juce::Colours::orange);
         setColour (juce::ToggleButton::textColourId, juce::Colours::black);
@@ -102,7 +100,7 @@ public:
     void setThumbShadowColour (const juce::Colour& colour);
     
     
-    /** Test this (unit test).
+    /* Test this (unit test).
         The drawing may overcomplicate the drawRotary method.
         Delegate drowing the arc to other methods?
      */
@@ -116,7 +114,7 @@ public:
         isThumbOnTop = isOnTop;
     }
     
-    /** If outline is not visible, only sliderFill and sliderThumb
+    /* If outline is not visible, only sliderFill and sliderThumb
      are visible, but outer body (outline is still drown, it's just transparent.
      */
     
@@ -239,7 +237,7 @@ inline void WaveshaperLookAndFeel::drawRotarySlider (juce::Graphics &g, int x, i
     
     if (outlineVisible)
     {
-        /**
+        /*
            - I want to draw starting and ending at different angles from this in input
            - I want to use outline type that can be set by caller
            - delegate this to other functions, maybe helpers?
@@ -279,7 +277,7 @@ inline int WaveshaperLookAndFeel::getSliderThumbRadius (juce::Slider& slider)
                  : static_cast<int> ((float) slider.getWidth()  * 0.75f));
 }
 
-/** Thumb : Triangle, Arrow, Circle
+/* Thumb : Triangle, Arrow, Circle
     ThumbFill : OneColour, Gradient
     Track : OneColour, Gradient
  */
@@ -293,7 +291,7 @@ inline void WaveshaperLookAndFeel::drawLinearSlider (juce::Graphics &, int x, in
 inline juce::Label* WaveshaperLookAndFeel::createSliderTextBox (juce::Slider& slider)
 {
     auto* l = juce::LookAndFeel_V2::createSliderTextBox (slider);
-    /** For linear slider / bar. */
+    /* For linear slider / bar. */
     //l->setColour (juce::Label::outlineColourId, juce::Colours::red);
     /** The following does not work. */
 //    auto textBoxPos = slider.getTextBoxPosition();
@@ -619,7 +617,7 @@ private:
 
 
 //================================================================================
-/** Custom L+F for the big rotary slider. */
+/* Custom L+F for the big rotary slider. */
 
 class RotarySliderBigLookAndFeel : public WaveshaperLookAndFeel
 {
@@ -868,9 +866,9 @@ public:
     enum class TriangleFillType { OneColour, Triangles, Pencil, Gradient };
     enum class PointerType { Triangle, Circle, Rectangle, Arrow };
     
-    /** LINEAR SLIDER. */
+    /* LINEAR SLIDER. */
     
-    /** Check if the input is legit? */
+    /* Check if the input is legit? */
     void setSliderThumbRadius (const float& newRadius)
     {
         if (newRadius < 0.0f)
@@ -883,7 +881,7 @@ public:
         return juce::jmin (sliderThumbRadius, slider.isHorizontal() ? static_cast<float> (slider.getHeight()) * 0.5f : static_cast<float> (slider.getWidth()) * 0.5f);
     }
     
-    /** Only horizontal or vertical one value slider. */
+    /* Only horizontal or vertical one value slider. */
     void drawLinearSlider (juce::Graphics& g, int x, int y, int width, int height,
                            float sliderPos,
                            float minSliderPos,

@@ -8,7 +8,7 @@
 #include "CrossfadeSection.h"
 
 //==============================================================================
-/** Colour palette:
+/* Colour palette:
  Surface: Black (filter triangles, crossfade area background)
           Dirty white / silver - the rest of background
  Rotary Slider Big (Saturation Slider)
@@ -21,7 +21,7 @@
     Labels - 2 colour scheme - black white, depending on background
  */
 
-/** LFO Parameters:
+/* LFO Parameters:
  - Frequency (manual or sync (what's the range for sync)
  - Waveform (Sine, Saw, Tri, Rect)
  - SAH (how ?)

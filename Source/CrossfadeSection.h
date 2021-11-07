@@ -39,7 +39,7 @@ public:
         symmetrySlider.setValue (0.5);
         symmetrySlider.addListener (this);
         symmetrySlider.setNumDecimalPlacesToDisplay (2);
-        symmetrySlider.setColour (juce::Slider::thumbColourId, parentBackground);
+        //symmetrySlider.setColour (juce::Slider::thumbColourId, parentBackground);
         symmetrySlider.setColour (juce::Slider::textBoxOutlineColourId, parentBackground.withAlpha (0.01f));
         symmetrySlider.setLookAndFeel(&symmetricalRotaryLookAndFeel);
         crossfadeSlider.setLookAndFeel (&symmetricalLinearLookAndFeel);
@@ -192,7 +192,7 @@ private:
     juce::Slider crossfadeSlider {juce::Slider::SliderStyle::LinearHorizontal, juce::Slider::TextEntryBoxPosition::TextBoxBelow};
     
     WaveshaperLookAndFeel crossfadeLookAndFeel;
-    Rosen::RotarSymmetricalRotaryLookAndFeel symmetricalRotaryLookAndFeel {0x01};
+    Rosen::RotarSymmetricalRotaryLookAndFeel symmetricalRotaryLookAndFeel {0x2};
     SymmetricalLinearLookAndFeel symmetricalLinearLookAndFeel;
     IndicatorLookAndFeel indicatorLabelLookAndFeel;
     
