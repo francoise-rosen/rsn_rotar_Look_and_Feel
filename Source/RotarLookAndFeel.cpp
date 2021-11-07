@@ -12,7 +12,7 @@
 
 namespace Rosen
 {
-    RotarLookAndFeel::RotarLookAndFeel(int colourStyle)
+    RotarLookAndFeel::RotarLookAndFeel(unsigned char colourStyle)
     :colourStyle {static_cast<ColourStyle>(colourStyle)}
     {
         setColourStyle();
@@ -20,7 +20,7 @@ namespace Rosen
     
     RotarLookAndFeel::~RotarLookAndFeel() {}
     
-    void RotarLookAndFeel::setColourStyle() {
+    void RotarLookAndFeel::setColourStyle() noexcept {
         switch (colourStyle) {
             case Default:
             {
@@ -50,12 +50,27 @@ namespace Rosen
                 setColour (juce::TextButton::buttonOnColourId, juce::Colours::orange);
                 setColour (juce::ToggleButton::textColourId, juce::Colours::black);
                 setColour (juce::ToggleButton::tickColourId, juce::Colours::orange);
+                break;
             }
             case BlackWhite:
             {
                 /* Slider default colours */
                 setColour (juce::Slider::rotarySliderOutlineColourId, juce::Colours::white);
+                setColour (juce::Slider::rotarySliderFillColourId, juce::Colours::silver.brighter());
+                setColour (juce::Slider::thumbColourId, juce::Colours::silver.brighter());
+                break;
             }
+                
+            case Cyan:
+            {
+                setColour (juce::Slider::backgroundColourId, juce::Colours::blue.withBrightness (0.2f));
+                setColour (juce::Slider::rotarySliderFillColourId, juce::Colours::blue.withBrightness (0.2f));
+                setColour (juce::Slider::rotarySliderOutlineColourId, juce::Colours::darkcyan);
+                break;
+            }
+            default:
+                return;
+                
         }
     }
     
@@ -505,7 +520,7 @@ namespace Rosen
     //================================================================================
     /* Rotary sliders with symmetrical view */
     //================================================================================
-    RotarSymmetricalRotaryLookAndFeel::RotarSymmetricalRotaryLookAndFeel(int colourStyle) {
+    RotarSymmetricalRotaryLookAndFeel::RotarSymmetricalRotaryLookAndFeel(unsigned char colourStyle) : RotarLookAndFeel(colourStyle) {
         
     }
     RotarSymmetricalRotaryLookAndFeel::~RotarSymmetricalRotaryLookAndFeel() {
@@ -523,7 +538,7 @@ namespace Rosen
         auto area = juce::Rectangle<int> (x, y, width, height).toFloat().reduced (edge);
         auto angle = rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
         
-        /** Outer body. */
+        /* Outer body. */
         const float outerRadius = juce::jmin (area.getWidth() * 0.5f, area.getHeight() * 0.5f) * sliderOuterRimScaleFactor;
         const float rimWidth = 2.0f;
         juce::Point<float> outerRimXY {centre.getX() - outerRadius, centre.getY() - outerRadius};

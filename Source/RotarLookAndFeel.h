@@ -27,12 +27,12 @@ namespace Rosen
             ArcWithCornersIn, ArcThreePointerEmpty, ArcThreePointerFilled, NoOutline };
         enum class ButtonShape { RoundedRect, Rect, Circle, Custom };
         enum class ToggleButtonTickStyle { Fill, Tick, Cross };
-        enum ColourStyle {Default, BlackWhite};
+        enum ColourStyle {Default, BlackWhite, Cyan};
         
         //================================================================================
         /* Constructors */
         
-        RotarLookAndFeel (int colourStyle = 0);
+        RotarLookAndFeel (unsigned char colourStyle = 0x0);
         
         virtual ~RotarLookAndFeel() override;
         
@@ -133,13 +133,13 @@ namespace Rosen
         
         /* default font properties */
         float fontHeight {14.0f};
+        const float edge {5.0f};
         juce::Font defaultFont  {"Monaco", "Plain", fontHeight};
       
     private:
         
         /* variables */
         ColourStyle colourStyle;
-        const float edge {5.0f};
         const float sliderOuterRimScaleFactor {0.92f};
         bool outlineVisible {true};
         bool isThumbOnTop {true};
@@ -149,7 +149,7 @@ namespace Rosen
         ToggleButtonTickStyle tickStyle { ToggleButtonTickStyle::Tick };
         
         /* Private methods */
-        void setColourStyle();
+        void setColourStyle() noexcept;
         
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RotarLookAndFeel)
     };
@@ -159,12 +159,11 @@ namespace Rosen
     //================================================================================
     class RotarSymmetricalRotaryLookAndFeel : public RotarLookAndFeel {
     public:
-        RotarSymmetricalRotaryLookAndFeel(int colourStyle = 0);
+        RotarSymmetricalRotaryLookAndFeel(unsigned char colourStyle = 0x0);
         virtual ~RotarSymmetricalRotaryLookAndFeel() override;
         virtual void drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, juce::Slider& slider) override;
         
     private:
-        const float edge {5.0f};
         OutlineType localOutlineType {OutlineType::ArcNormal};
         float sliderOuterRimScaleFactor {0.92f};
         float knobToArcScaleFactor {0.69f};
@@ -181,6 +180,7 @@ namespace Rosen
         virtual ~RotarSymmetricalLinearLookAndFeel() override;
         
     };
+    
     //================================================================================
     /* Rotary and Linear Sliders with symmetrical view */
     //================================================================================

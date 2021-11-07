@@ -27,14 +27,14 @@ public:
         setLookAndFeel (&crossfadeLookAndFeel);
         localBackground = parentBackground;
         
-        /** Crossfade. */
+        /* Crossfade. */
         crossfadeLookAndFeel.setColour (juce::Slider::rotarySliderFillColourId, juce::Colours::silver.brighter());
         crossfadeLookAndFeel.setColour (juce::Slider::rotarySliderOutlineColourId, juce::Colours::white);
         crossfadeLookAndFeel.setColour (juce::Slider::thumbColourId, juce::Colours::silver.brighter());
         crossfadeSlider.setColour (juce::Slider::thumbColourId, parentBackground);
         crossfadeSlider.setColour (juce::Slider::textBoxOutlineColourId, parentBackground.withAlpha (0.01f));
         
-        /** Symmetrical Rotary Slider. */
+        /* Symmetrical Rotary Slider. */
         symmetrySlider.setRange (0.0, 1.0);
         symmetrySlider.setValue (0.5);
         symmetrySlider.addListener (this);
@@ -43,10 +43,6 @@ public:
         symmetrySlider.setColour (juce::Slider::textBoxOutlineColourId, parentBackground.withAlpha (0.01f));
         symmetrySlider.setLookAndFeel(&symmetricalRotaryLookAndFeel);
         crossfadeSlider.setLookAndFeel (&symmetricalLinearLookAndFeel);
-        
-        symmetricalRotaryLookAndFeel.setColour (juce::Slider::rotarySliderFillColourId, juce::Colours::silver.brighter());
-        symmetricalRotaryLookAndFeel.setColour (juce::Slider::rotarySliderOutlineColourId, juce::Colours::white);
-        symmetricalRotaryLookAndFeel.setColour (juce::Slider::thumbColourId, juce::Colours::silver.brighter());
         
         /* THESE DON'T WORK! WHY? */
         symmetrySlider.setColour (juce::Slider::textBoxBackgroundColourId, juce::Colours::black.withMultipliedAlpha (0.5f));
@@ -106,11 +102,11 @@ public:
         auto area = getLocalBounds().reduced (edge);
         g.fillRoundedRectangle (area.toFloat(), edge * 2.0f);
         
-        /** Arrow and A B labels. */
+        /* Arrow and A B labels. */
         float arrowheadLength = 10.0f;
-        /** Arrow y position. */
+        /* Arrow y position. */
         float arrowY = ((sliderArea != nullptr) && (comboArea != nullptr)) ? sliderArea->getY() - (sliderArea->getY() - comboArea->getBottom()) * 0.25f : getHeight() * 0.75f;
-        /** Arrow's x right and left. */
+        /* Arrow's x right and left. */
         float arrowXRight = getWidth() * 0.7f;
         juce::Array<juce::Point<float>> arrowPointsRight
         {
@@ -125,7 +121,7 @@ public:
         float arrowXLeft = getWidth() * 0.3f;
         juce::Array<juce::Point<float>> arrowPointsLeft
         {
-            /** left edge */
+            /* left edge */
             juce::Point<float> {
                 arrowXLeft + arrowheadLength, arrowY
             },
@@ -146,7 +142,7 @@ public:
         curve.cubicTo({ getWidth() * 0.55f, arrowY - 2.0f}, { getWidth() * 0.6f, arrowY - 10.0f }, { arrowXRight - arrowheadLength, arrowY });
         g.strokePath (curve, juce::PathStrokeType {2.0f});
         
-        /** Draw A and B labels. */
+        /* Draw A and B labels. */
         g.setFont (defaultFont);
         g.drawFittedText ("A", juce::Rectangle<float> {arrowXLeft, arrowXLeft}.withCentre (juce::Point<float>{ arrowXLeft * 0.5f, arrowY }).toNearestInt(), juce::Justification::centred, 1);
         g.drawFittedText ("B", juce::Rectangle<float> {arrowXLeft, arrowXLeft}.withCentre (juce::Point<float>{ getWidth() - arrowXLeft * 0.5f, arrowY }).toNearestInt(), juce::Justification::centred, 1);
@@ -157,7 +153,7 @@ public:
     {
         auto area = getLocalBounds().reduced (edge);
         
-        /** Upper half. */
+        /* Upper half. */
         auto dialArea = area.removeFromTop (area.getHeight() * 0.5f);
         symmetrySlider.setBounds (dialArea.reduced (edge));
         auto labelDiameter = juce::jmin (dialArea.getHeight() * 0.15f, dialArea.getWidth() * 0.15f);
@@ -196,7 +192,7 @@ private:
     juce::Slider crossfadeSlider {juce::Slider::SliderStyle::LinearHorizontal, juce::Slider::TextEntryBoxPosition::TextBoxBelow};
     
     WaveshaperLookAndFeel crossfadeLookAndFeel;
-    Rosen::RotarSymmetricalRotaryLookAndFeel symmetricalRotaryLookAndFeel;
+    Rosen::RotarSymmetricalRotaryLookAndFeel symmetricalRotaryLookAndFeel {0x01};
     SymmetricalLinearLookAndFeel symmetricalLinearLookAndFeel;
     IndicatorLookAndFeel indicatorLabelLookAndFeel;
     
