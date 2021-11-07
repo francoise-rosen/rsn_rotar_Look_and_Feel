@@ -51,6 +51,11 @@ namespace Rosen
                 setColour (juce::ToggleButton::textColourId, juce::Colours::black);
                 setColour (juce::ToggleButton::tickColourId, juce::Colours::orange);
             }
+            case BlackWhite:
+            {
+                /* Slider default colours */
+                setColour (juce::Slider::rotarySliderOutlineColourId, juce::Colours::white);
+            }
         }
     }
     
@@ -498,10 +503,65 @@ namespace Rosen
     }
     
     //================================================================================
+    /* Rotary sliders with symmetrical view */
+    //================================================================================
+    RotarSymmetricalRotaryLookAndFeel::RotarSymmetricalRotaryLookAndFeel(int colourStyle) {
+        
+    }
+    RotarSymmetricalRotaryLookAndFeel::~RotarSymmetricalRotaryLookAndFeel() {
+        setColour (juce::Slider::rotarySliderOutlineColourId, juce::Colours::white);
+    }
+    
+    void RotarSymmetricalRotaryLookAndFeel::drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height,
+                           float sliderPosProportional, float rotaryStartAngle,
+                           float rotaryEndAngle, juce::Slider& slider)
+    {
+        
+        auto fill = slider.findColour (juce::Slider::rotarySliderFillColourId);
+        auto outline = slider.findColour (juce::Slider::rotarySliderOutlineColourId);
+        juce::Point<float> centre {x + width * 0.5f, y + height * 0.5f};
+        auto area = juce::Rectangle<int> (x, y, width, height).toFloat().reduced (edge);
+        auto angle = rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
+        
+        /** Outer body. */
+        const float outerRadius = juce::jmin (area.getWidth() * 0.5f, area.getHeight() * 0.5f) * sliderOuterRimScaleFactor;
+        const float rimWidth = 2.0f;
+        juce::Point<float> outerRimXY {centre.getX() - outerRadius, centre.getY() - outerRadius};
+        
+        /** Inner body. */
+        const float innerRadius = outerRadius * knobToArcScaleFactor;
+        juce::Point<float> innerRimXY {centre.getX() - innerRadius, centre.getY() - innerRadius};
+        
+        juce::Path outerArc;
+        outerArc.addCentredArc (centre.getX(),
+                                centre.getY(),
+                                outerRadius,
+                                outerRadius,
+                                0.0f,
+                                rotaryStartAngle,
+                                rotaryEndAngle,
+                                true);
+        g.setColour (outline);
+        g.strokePath (outerArc, juce::PathStrokeType (rimWidth, juce::PathStrokeType::curved, juce::PathStrokeType::rounded));
+        juce::Path middleLine;
+        middleLine.startNewSubPath (centre.getX(), centre.getY() - outerRadius);
+        middleLine.lineTo (centre.getX(), y);
+        g.setColour (outline);
+        g.strokePath (middleLine, juce::PathStrokeType (rimWidth));
+        
+        g.setColour (fill);
+        g.fillEllipse (innerRimXY.getX(), innerRimXY.getY(), innerRadius * 2.0f, innerRadius * 2.0f);
+        
+        g.setColour (slider.findColour (juce::Slider::thumbColourId));
+        drawRotaryThumb (g, centre, outerRadius, angle);
+
+    }
+    
+    //================================================================================
     /* Linear sliders with symmetrical view */
     //================================================================================
 
-    SymmetricalLinearSliderLookAndFeel::SymmetricalLinearSliderLookAndFeel() {}
-    SymmetricalLinearSliderLookAndFeel::~SymmetricalLinearSliderLookAndFeel() {}
+    RotarSymmetricalLinearLookAndFeel::RotarSymmetricalLinearLookAndFeel() {}
+    RotarSymmetricalLinearLookAndFeel::~RotarSymmetricalLinearLookAndFeel() {}
         
 }

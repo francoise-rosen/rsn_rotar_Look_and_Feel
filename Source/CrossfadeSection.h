@@ -48,7 +48,7 @@ public:
         symmetricalRotaryLookAndFeel.setColour (juce::Slider::rotarySliderOutlineColourId, juce::Colours::white);
         symmetricalRotaryLookAndFeel.setColour (juce::Slider::thumbColourId, juce::Colours::silver.brighter());
         
-        /** THESE DON'T WORK! WHY? */
+        /* THESE DON'T WORK! WHY? */
         symmetrySlider.setColour (juce::Slider::textBoxBackgroundColourId, juce::Colours::black.withMultipliedAlpha (0.5f));
         symmetrySlider.setColour (juce::Slider::textBoxOutlineColourId, juce::Colours::black.withAlpha (0.0f));
         
@@ -196,7 +196,7 @@ private:
     juce::Slider crossfadeSlider {juce::Slider::SliderStyle::LinearHorizontal, juce::Slider::TextEntryBoxPosition::TextBoxBelow};
     
     WaveshaperLookAndFeel crossfadeLookAndFeel;
-    SymmetricalRotaryLookAndFeel symmetricalRotaryLookAndFeel;
+    Rosen::RotarSymmetricalRotaryLookAndFeel symmetricalRotaryLookAndFeel;
     SymmetricalLinearLookAndFeel symmetricalLinearLookAndFeel;
     IndicatorLookAndFeel indicatorLabelLookAndFeel;
     

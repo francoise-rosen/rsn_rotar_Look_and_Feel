@@ -27,7 +27,7 @@ namespace Rosen
             ArcWithCornersIn, ArcThreePointerEmpty, ArcThreePointerFilled, NoOutline };
         enum class ButtonShape { RoundedRect, Rect, Circle, Custom };
         enum class ToggleButtonTickStyle { Fill, Tick, Cross };
-        enum ColourStyle {Default};
+        enum ColourStyle {Default, BlackWhite};
         
         //================================================================================
         /* Constructors */
@@ -155,32 +155,41 @@ namespace Rosen
     };
     
     //================================================================================
-    /* Rotary  sliders with symmetrical view */
+    /* Rotary sliders with symmetrical view */
     //================================================================================
-    class SymmetricalRotarySliderLookAndFeel : public RotarLookAndFeel {
+    class RotarSymmetricalRotaryLookAndFeel : public RotarLookAndFeel {
     public:
-        SymmetricalRotarySliderLookAndFeel();
-        virtual ~SymmetricalRotarySliderLookAndFeel() override;
+        RotarSymmetricalRotaryLookAndFeel(int colourStyle = 0);
+        virtual ~RotarSymmetricalRotaryLookAndFeel() override;
+        virtual void drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, juce::Slider& slider) override;
+        
+    private:
+        const float edge {5.0f};
+        OutlineType localOutlineType {OutlineType::ArcNormal};
+        float sliderOuterRimScaleFactor {0.92f};
+        float knobToArcScaleFactor {0.69f};
+
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RotarSymmetricalRotaryLookAndFeel)
     };
     
     //================================================================================
     /* Linear sliders with symmetrical view */
     //================================================================================
-    class SymmetricalLinearSliderLookAndFeel : public RotarLookAndFeel {
+    class RotarSymmetricalLinearLookAndFeel : public RotarLookAndFeel {
     public:
-        SymmetricalLinearSliderLookAndFeel();
-        virtual ~SymmetricalLinearSliderLookAndFeel() override;
+        RotarSymmetricalLinearLookAndFeel();
+        virtual ~RotarSymmetricalLinearLookAndFeel() override;
         
     };
     //================================================================================
     /* Rotary and Linear Sliders with symmetrical view */
     //================================================================================
-    class SymmetricalSliderLookAndFeel : public SymmetricalRotarySliderLookAndFeel,
-                                         public SymmetricalLinearSliderLookAndFeel
+    class RotarSymmetricalSliderLookAndFeel : public RotarSymmetricalRotaryLookAndFeel,
+                                         public RotarSymmetricalLinearLookAndFeel
     {
     public:
-        SymmetricalSliderLookAndFeel();
-        virtual ~SymmetricalSliderLookAndFeel() override;
+        RotarSymmetricalSliderLookAndFeel();
+        virtual ~RotarSymmetricalSliderLookAndFeel() override;
         
     };
 }
