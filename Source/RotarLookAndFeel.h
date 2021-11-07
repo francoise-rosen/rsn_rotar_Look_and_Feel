@@ -19,16 +19,18 @@ namespace Rosen
     class RotarLookAndFeel : public juce::LookAndFeel_V4
     {
     public:
-        /* Public Types */
+        
         //================================================================================
+        /* Public Types */
+        
         enum class OutlineType { Ellipse, ArcNormal, ArcWithArrows, ArcWithCornersOut,
             ArcWithCornersIn, ArcThreePointerEmpty, ArcThreePointerFilled, NoOutline };
         enum class ButtonShape { RoundedRect, Rect, Circle, Custom };
         enum class ToggleButtonTickStyle { Fill, Tick, Cross };
         enum ColourStyle {Default};
         
-        /* Constructors */
         //================================================================================
+        /* Constructors */
         
         RotarLookAndFeel (int colourStyle = 0);
         
@@ -36,8 +38,8 @@ namespace Rosen
         
         /* Managed objects */
         
-        /* Slider */
         //================================================================================
+        /* Slider */
         
         void drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, juce::Slider& slider) override;
         
@@ -49,8 +51,8 @@ namespace Rosen
         
         juce::Slider::SliderLayout getSliderLayout (juce::Slider& slider) override;
         
-        /* Button  */
         //================================================================================
+        /* Toggle Button and Text Button */
         
         void setToggleButtonTickStyle (RotarLookAndFeel::ToggleButtonTickStyle style);
         
@@ -83,9 +85,9 @@ namespace Rosen
         void drawLabel (juce::Graphics& g, juce::Label& j) override;
         
         /* Miscellaneous */
-        
-        /* Special colour functions. */
+                
         //================================================================================
+        /* Special colour functions. */
         
         void setThumbGradientTargetColour (const juce::Colour& colour);
         

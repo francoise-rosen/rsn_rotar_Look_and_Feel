@@ -8,7 +8,7 @@
   ==============================================================================
 */
 
-/** WHAT DO I WANT
+/* WHAT DO I WANT
     - object that takes a set of points and draws an arrow around the last point
     - object that takes a set of points and draws an arrow around the first and around the last point (twoSided)
  - 4 types of arrow: closed triangle, opened triangle, filled triangle, filled with sharp back edges
@@ -115,7 +115,7 @@ private:
     juce::Array<juce::Point<T>> linePoints;
     ArrowView arrowPointerView { ArrowView::Tri};
     bool isFilled { false };
-    /** TODO:
+    /* TODO:
      - determine the angle of the arrow (direction). What if the line is curved? Differential?
      - use affine transform (see draw pointer as triangle for slider)
      - other types of arrows  (later)
@@ -150,7 +150,7 @@ private:
             }
             else
             {
-                /** Empty. */
+                /* Empty. */
                 g.strokePath (arrowhead, juce::PathStrokeType {lineThickness});
             }
         }
