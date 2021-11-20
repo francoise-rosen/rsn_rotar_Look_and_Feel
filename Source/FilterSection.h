@@ -52,19 +52,12 @@ private:
     juce::Colour localBackground;
     Rosen::RotarLookAndFeel rotarMainLookAndFeel;
     SmallRotaryLookAndFeel smallSliderLookAndFeel {true};
-    FilterControls inputFilter;
-    FilterControls outputFilter;
+    FilterControls alphaFilter;
+    FilterControls betaFilter;
     
-    std::unique_ptr<juce::Rectangle<int>> iFilterFreqKnobRect;
-    std::unique_ptr<juce::Rectangle<int>> iFilterQKnobRect;
-    std::unique_ptr<juce::Rectangle<int>> iFilterMixKnobRect;
-    std::unique_ptr<juce::Rectangle<int>> iFilterBoostKnobRect;
-    std::unique_ptr<juce::Rectangle<int>> iFilterButtonRect;
-    std::unique_ptr<juce::Rectangle<int>> oFilterFreqKnobRect;
-    std::unique_ptr<juce::Rectangle<int>> oFilterQKnobRect;
-    std::unique_ptr<juce::Rectangle<int>> oFilterMixKnobRect;
-    std::unique_ptr<juce::Rectangle<int>> oFilterBoostKnobRect;
-    std::unique_ptr<juce::Rectangle<int>> oFilterButtonRect;
+    enum ObjectArea {AlphaFreqRotary, AlphaQRotary, AlphaFilterMixRotary, AlphaBoostRotary, AlphaButton, BetaFreqRotary, BetaQRotary, BetaFilterMixRotary, BetaBoostRotary, BetaButton, NumObjects};
+    
+    std::unique_ptr<juce::Rectangle<int>> objectAreas[NumObjects];
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FilterSection)
 };

@@ -16,11 +16,11 @@ FilterSection::FilterSection(juce::Colour parentBackground)
 {
     localBackground = parentBackground;
     setLookAndFeel (&rotarMainLookAndFeel);
-    intialiseFilterControls (inputFilter);
-    intialiseFilterControls (outputFilter);
-    inputFilter.algorithm.addItemList({"LPF", "HPF", "BPF"}, 100);
-    inputFilter.algorithm.setSelectedItemIndex(0);
-    outputFilter.algorithm.addItemList({"LPF", "HPF", "BPF"}, 100);
+    intialiseFilterControls (alphaFilter);
+    intialiseFilterControls (betaFilter);
+    alphaFilter.algorithm.addItemList({"LPF", "HPF", "BPF"}, 100);
+    alphaFilter.algorithm.setSelectedItemIndex(0);
+    betaFilter.algorithm.addItemList({"LPF", "HPF", "BPF"}, 100);
 
 }
 
@@ -28,7 +28,7 @@ FilterSection::~FilterSection()
 {
     setLookAndFeel (nullptr);
     //inputFilter.boost.setLookAndFeel (nullptr);
-    outputFilter.boost.setLookAndFeel (nullptr);
+    betaFilter.boost.setLookAndFeel (nullptr);
 }
 
 void FilterSection::paint (juce::Graphics& g)
@@ -66,48 +66,13 @@ void FilterSection::paint (juce::Graphics& g)
     g.strokePath(rightTri, juce::PathStrokeType (2.0f));
     
     g.setColour (juce::Colours::orange);
-    if (iFilterFreqKnobRect != nullptr)
-    {
-        g.drawRect(*iFilterFreqKnobRect);
+    for (auto& area : objectAreas) {
+        if (area) {
+            g.drawRect(*area);
+        }
     }
-    
-    if (iFilterQKnobRect != nullptr)
-    {
-        g.drawRect (*iFilterQKnobRect);
-    }
-    
-    if (iFilterBoostKnobRect != nullptr)
-    {
-        g.drawRect (*iFilterBoostKnobRect);
-    }
-    
-    if (oFilterQKnobRect != nullptr)
-    {
-        g.drawRect(*oFilterQKnobRect);
-    }
-    
-    if (oFilterFreqKnobRect != nullptr)
-    {
-        g.drawRect(*oFilterFreqKnobRect);
-    }
-    
-    if (oFilterBoostKnobRect != nullptr)
-    {
-        g.drawRect(*oFilterBoostKnobRect);
-    }
-    if (iFilterButtonRect != nullptr)
-    {
-        g.drawRect(*iFilterButtonRect);
-    }
-    
-    if (oFilterButtonRect != nullptr)
-    {
-        g.drawRect(*oFilterButtonRect);
-    }
-    
-    
 }
-/** Work on proper geometry (angles, edges and stuff.
+/* Work on proper geometry (angles, edges and stuff.
  This concepts has some vague calculatons and rounding errors!.
  */
 void FilterSection::resized()
@@ -115,35 +80,34 @@ void FilterSection::resized()
     auto area = getLocalBounds().reduced (edge) ;
     
     //=====================================================================
-    /** Input filter. */
+    /* Alpha filter. */
     auto freqSliderSide = juce::jmin (getHeight() * 0.4f, getWidth() * 0.5f);
     auto midSliderSide = freqSliderSide * 0.67f;
     auto smallSliderSide = midSliderSide * 0.67f;
     auto buttonSide = smallSliderSide * 0.5f;
     
-    iFilterFreqKnobRect = std::make_unique<juce::Rectangle<int>> (area.withTop(getHeight() - freqSliderSide).withRight (freqSliderSide).reduced (edge));
-    iFilterQKnobRect = std::make_unique<juce::Rectangle<int>> (area.withBottom (getHeight() - freqSliderSide).withTop (getHeight() - freqSliderSide - midSliderSide).withRight(area.getX() + midSliderSide).reduced (edge));
-    iFilterBoostKnobRect = std::make_unique<juce::Rectangle<int>> (area.withBottom (iFilterQKnobRect->getY()).withTop (iFilterQKnobRect->getY() - smallSliderSide).withRight (smallSliderSide).reduced (edge));
-    iFilterButtonRect = std::make_unique<juce::Rectangle<int>>(area.withBottom (iFilterBoostKnobRect->getY()).withRight (area.getX() + buttonSide).withTop (iFilterBoostKnobRect->getY() - buttonSide).reduced (edge));
+    objectAreas[AlphaFreqRotary] = std::make_unique<juce::Rectangle<int>> (area.withTop(getHeight() - freqSliderSide).withRight (freqSliderSide).reduced (edge));
+    objectAreas[AlphaQRotary] = std::make_unique<juce::Rectangle<int>> (area.withBottom (getHeight() - freqSliderSide).withTop (getHeight() - freqSliderSide - midSliderSide).withRight(area.getX() + midSliderSide).reduced (edge));
+    objectAreas[AlphaBoostRotary] = std::make_unique<juce::Rectangle<int>> (area.withBottom (objectAreas[AlphaQRotary]->getY()).withTop (objectAreas[AlphaQRotary]->getY() - smallSliderSide).withRight (smallSliderSide).reduced (edge));
+    objectAreas[AlphaButton] = std::make_unique<juce::Rectangle<int>>(area.withBottom (objectAreas[AlphaBoostRotary]->getY()).withRight (area.getX() + buttonSide).withTop (objectAreas[AlphaBoostRotary]->getY() - buttonSide).reduced (edge));
     
-    inputFilter.frequency.setBounds (area.withTop(getHeight() - freqSliderSide).withRight (freqSliderSide).reduced (edge));
-    inputFilter.algorithm.setBounds (area.withLeft (freqSliderSide).withTop (getHeight() * 0.9f).withRight (getWidth() * 0.9f).reduced (edge));
-    inputFilter.q.setBounds (*iFilterQKnobRect);
-    inputFilter.boost.setBounds (*iFilterBoostKnobRect);
-    inputFilter.toggleButton.setBounds (*iFilterButtonRect);
+    alphaFilter.frequency.setBounds (area.withTop(getHeight() - freqSliderSide).withRight (freqSliderSide).reduced (edge));
+    alphaFilter.algorithm.setBounds (area.withLeft (freqSliderSide).withTop (getHeight() * 0.9f).withRight (getWidth() * 0.9f).reduced (edge));
+    alphaFilter.q.setBounds (*objectAreas[AlphaQRotary]);
+    alphaFilter.boost.setBounds (*objectAreas[AlphaBoostRotary]);
+    alphaFilter.toggleButton.setBounds (*objectAreas[AlphaButton]);
     
     //=====================================================================
-    /** Output filter. */
-    oFilterQKnobRect = std::make_unique<juce::Rectangle<int>> ((*iFilterQKnobRect).withCentre({area.getCentreX(), static_cast<int>(area.getY() + edge + edge + iFilterQKnobRect->getHeight() * 0.5f)}));
-    oFilterFreqKnobRect = std::make_unique<juce::Rectangle<int>> ((*iFilterFreqKnobRect).withCentre({area.getRight() - (int)(freqSliderSide * 0.5f - edge * 0.5f), (int)(area.getY() + midSliderSide * 0.75f + freqSliderSide * 0.5f)}));
-    oFilterBoostKnobRect = std::make_unique<juce::Rectangle<int>> ((*iFilterBoostKnobRect).withCentre ({area.getRight() - (int)(smallSliderSide * 0.5f - edge * 0.5f), (int)(area.getY() + midSliderSide * 0.75f + freqSliderSide + smallSliderSide * 0.5f) }));
-    oFilterButtonRect = std::make_unique<juce::Rectangle<int>>((*iFilterButtonRect).withCentre({static_cast<int>(area.getRight() - (int)(buttonSide * 0.5f)), (int)(oFilterBoostKnobRect->getBottom() + buttonSide * 0.5f) }));
+    /* Output filter. */
+    objectAreas[BetaQRotary] = std::make_unique<juce::Rectangle<int>> ((*objectAreas[AlphaQRotary]).withCentre({area.getCentreX(), static_cast<int>(area.getY() + edge + edge + objectAreas[AlphaQRotary]->getHeight() * 0.5f)}));
+    objectAreas[BetaFreqRotary] = std::make_unique<juce::Rectangle<int>> ((*objectAreas[AlphaFreqRotary]).withCentre({area.getRight() - (int)(freqSliderSide * 0.5f - edge * 0.5f), (int)(area.getY() + midSliderSide * 0.75f + freqSliderSide * 0.5f)}));
+    objectAreas[BetaBoostRotary] = std::make_unique<juce::Rectangle<int>> ((*objectAreas[AlphaBoostRotary]).withCentre ({area.getRight() - (int)(smallSliderSide * 0.5f - edge * 0.5f), (int)(area.getY() + midSliderSide * 0.75f + freqSliderSide + smallSliderSide * 0.5f) }));
+    objectAreas[BetaButton] = std::make_unique<juce::Rectangle<int>>((*objectAreas[AlphaButton]).withCentre({static_cast<int>(area.getRight() - (int)(buttonSide * 0.5f)), (int)(objectAreas[BetaBoostRotary]->getBottom() + buttonSide * 0.5f) }));
     
-    outputFilter.frequency.setBounds (*oFilterFreqKnobRect);
-    outputFilter.q.setBounds (*oFilterQKnobRect);
-    outputFilter.boost.setBounds (*oFilterBoostKnobRect);
-    outputFilter.toggleButton.setBounds (*oFilterButtonRect);
-
+    betaFilter.frequency.setBounds (*objectAreas[BetaQRotary]);
+    betaFilter.q.setBounds (*objectAreas[BetaFreqRotary]);
+    betaFilter.boost.setBounds (*objectAreas[BetaBoostRotary]);
+    betaFilter.toggleButton.setBounds (*objectAreas[BetaButton]);
 
 }
 
@@ -160,7 +124,7 @@ void FilterSection::intialiseFilterControls (FilterControls &filterControls)
     filterControls.frequency.setSkewFactorFromMidPoint (1000.0);
     filterControls.frequency.setValue (1000.0);
     filterControls.frequency.setNumDecimalPlacesToDisplay (1);
-    if (&filterControls == &inputFilter)
+    if (&filterControls == &alphaFilter)
     {
         filterControls.frequency.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::silver.brighter());
         filterControls.frequency.setColour(juce::Slider::thumbColourId, juce::Colours::silver.brighter());
@@ -170,7 +134,7 @@ void FilterSection::intialiseFilterControls (FilterControls &filterControls)
         filterControls.q.setColour(juce::Slider::thumbColourId, juce::Colours::silver.brighter());
     }
     
-    else if (&filterControls == &outputFilter)
+    else if (&filterControls == &betaFilter)
     {
         filterControls.frequency.setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::blue.withBrightness(0.2f));
         filterControls.frequency.setColour(juce::Slider::thumbColourId, juce::Colours::blue.withBrightness(0.2f));
