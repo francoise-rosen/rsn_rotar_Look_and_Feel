@@ -160,7 +160,7 @@ namespace Rosen
     };
     
     //================================================================================
-    /* Rotary Big sliders */
+    /* Rotary Big slider */
     //================================================================================
     class RotarBigRotaryLookAndFeel : public RotarLookAndFeel {
     public:
@@ -190,8 +190,26 @@ namespace Rosen
     };
     
     //================================================================================
-    /* Rotary Small sliders */
+    /* Rotary Small slider */
     //================================================================================
+    
+    class RotarSmallRotaryLookAndFeel : public RotarLookAndFeel
+    {
+    public:
+        RotarSmallRotaryLookAndFeel(const bool& b = false);
+        virtual ~RotarSmallRotaryLookAndFeel();
+        
+        void drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, juce::Slider& slider) override;
+        
+        bool isSymmetrical() const;
+        void setSymmetry (bool b);
+    private:
+        bool symmetry;
+        void drawThumbShadow (juce::Graphics& g, const juce::Point<float>& centre, const float& trackRadius, const float& radius, const float& angle);
+        
+        void drawSliderThumb (juce::Graphics& g, juce::Point<float>& centre, const float& radius, const float& angle);
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(RotarSmallRotaryLookAndFeel)
+    };
     
     //================================================================================
     /* Rotary sliders with symmetrical view */

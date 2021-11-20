@@ -51,7 +51,7 @@ private:
     const float edge {4.0f};
     juce::Colour localBackground;
     Rosen::RotarLookAndFeel rotarMainLookAndFeel;
-    SmallRotaryLookAndFeel smallSliderLookAndFeel {true};
+    Rosen::RotarSmallRotaryLookAndFeel smallSliderLookAndFeel {true};
     FilterControls alphaFilter;
     FilterControls betaFilter;
     

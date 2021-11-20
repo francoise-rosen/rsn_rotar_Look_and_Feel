@@ -722,7 +722,7 @@ private:
 
 
 //================================================================================
-/** Custom L+F for the small rotary slider. */
+/* Custom L+F for the small rotary slider. */
 
 class SmallRotaryLookAndFeel : public WaveshaperLookAndFeel
 {

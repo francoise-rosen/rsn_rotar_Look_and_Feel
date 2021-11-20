@@ -633,6 +633,127 @@ namespace Rosen
     }
     
     //================================================================================
+    /* Rotary Small Slider */
+    //================================================================================
+    RotarSmallRotaryLookAndFeel::RotarSmallRotaryLookAndFeel(const bool& b)
+    : symmetry {b}
+    {
+        //setColour (juce::Slider::backgroundColourId, juce::Colours::silver.withAlpha (0.3f));
+        //setColour (juce::Slider::backgroundColourId, juce::Colours::darkorange);
+        setColour (juce::Slider::backgroundColourId, juce::Colours::darkgrey);
+        setColour (juce::Slider::rotarySliderFillColourId, juce::Colours::darkcyan.withBrightness (0.25f));
+        setColour (juce::Slider::rotarySliderOutlineColourId, juce::Colours::black);
+        setColour (juce::Slider::thumbColourId, juce::Colours::black);
+        setColour (juce::Slider::trackColourId, juce::Colours::blue.withBrightness(0.2f));
+    }
+    
+    RotarSmallRotaryLookAndFeel::~RotarSmallRotaryLookAndFeel() {}
+    
+    /* Update this to draw arc for the rim,
+     instead of having to draw a shadow around the thumb point. */
+    void RotarSmallRotaryLookAndFeel::drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, juce::Slider& slider)
+    {
+        auto area = juce::Rectangle<int> (x, y, width, height).toFloat().reduced (5.0f);
+        juce::Point<float> centre {area.getCentre()};
+        auto angle = rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
+        auto outerRadius { juce::jmin (area.getWidth() * 0.5f, area.getHeight()) * 0.5f };
+        juce::Point<float> outerRimXY {centre.getX() - outerRadius, centre.getY() - outerRadius};
+        auto innerRadius {outerRadius * 0.95f};
+        juce::Point<float> innerRimXY {centre.getX() - innerRadius, centre.getY() - innerRadius};
+        /* This is the colour that will be more present closer
+         to the outer rim. */
+        auto fillColour = slider.findColour (juce::Slider::rotarySliderFillColourId);
+        auto background = slider.findColour (juce::Slider::backgroundColourId);
+        juce::ColourGradient gradient
+        {
+            background.withMultipliedAlpha(0.93f),
+            centre,
+            fillColour,
+            outerRimXY,
+            true
+        };
+        g.setColour (background);
+        g.drawEllipse(outerRimXY.getX(), outerRimXY.getY(), outerRadius * 2.0f, outerRadius * 2.0f, juce::jmin (5.0f, outerRadius * 0.5f));
+        
+        if (symmetry)
+        {
+            const float length = juce::jmin (5.0f, outerRadius * 0.2f);
+            juce::Path pointer;
+            pointer.startNewSubPath (centre.withY (centre.getY() - outerRadius));
+            pointer.lineTo (centre.withY (centre.getY() - outerRadius - length));
+            g.strokePath (pointer, juce::PathStrokeType {3.0f, juce::PathStrokeType::curved, juce::PathStrokeType::rounded});
+        }
+        
+        g.setGradientFill(gradient);
+        g.fillEllipse (innerRimXY.getX(), innerRimXY.getY(), innerRadius * 2.0f, innerRadius * 2.0f);
+        
+        /** draw a track. */
+        juce::Path track;
+        
+        if (symmetry)
+        {
+            float mid = (rotaryStartAngle + rotaryEndAngle) * 0.5f;
+            track.addCentredArc(centre.getX(),
+                               centre.getY(),
+                               outerRadius + 1.0f,
+                               outerRadius + 1.0f,
+                               0.0f,
+                               (mid > angle) ? angle : mid,
+                               (angle > mid) ? angle : mid,
+                               true);
+        }
+        else
+        {
+            track.addCentredArc(centre.getX(),
+                                centre.getY(),
+                                outerRadius + 1.0f,
+                                outerRadius + 1.0f,
+                                0.0f,
+                                rotaryStartAngle,
+                                angle,
+                                true);
+        }
+        g.setColour (slider.findColour (juce::Slider::trackColourId));
+        g.strokePath (track, juce::PathStrokeType { juce::jmin (4.0f, outerRadius * 0.4f), juce::PathStrokeType::curved, juce::PathStrokeType::rounded });
+        
+        g.setColour (slider.findColour (juce::Slider::rotarySliderOutlineColourId));
+        g.drawEllipse (innerRimXY.getX(), innerRimXY.getY(), innerRadius * 2.0f, innerRadius * 2.0f, juce::jmin (2.0f, outerRadius * 0.25f));
+        
+        g.setColour (background.withAlpha(0.85f));
+        drawThumbShadow (g, centre, innerRadius, juce::jmin (2.0f, outerRadius * 0.25f), angle);
+        g.setColour (slider.findColour (juce::Slider::thumbColourId));
+        drawSliderThumb(g, centre, innerRadius, angle);
+    }
+    
+    bool RotarSmallRotaryLookAndFeel::isSymmetrical() const
+    {
+        return symmetry;
+    }
+    
+    void RotarSmallRotaryLookAndFeel::setSymmetry (bool b)
+    {
+        symmetry = b;
+    }
+    
+    /* Private methods */
+    void RotarSmallRotaryLookAndFeel::drawThumbShadow (juce::Graphics& g, const juce::Point<float>& centre, const float& trackRadius, const float& radius, const float& angle)
+    {
+        juce::Point<float> thumbPoint { centre.getX() + trackRadius * std::cos (angle - juce::MathConstants<float>::halfPi), centre.getY() + trackRadius * std::sin (angle - juce::MathConstants<float>::halfPi) };
+        g.fillEllipse (juce::Rectangle<float> (radius * 3.0f, radius * 3.0f).withCentre(thumbPoint));
+    }
+    
+    void RotarSmallRotaryLookAndFeel::drawSliderThumb (juce::Graphics& g, juce::Point<float>& centre, const float& radius, const float& angle)
+    {
+        juce::Path p;
+        p.startNewSubPath (centre.withY (centre.getY() - radius * 0.33f));
+        p.lineTo (centre.withY (centre.getY() - radius));
+        //p.applyTransform (juce::AffineTransform::rotation (angle).translated (centre));
+        p.applyTransform (juce::AffineTransform::rotation (angle, centre.getX(), centre.getY()));
+        g.strokePath (p, {2.0f, juce::PathStrokeType::curved, juce::PathStrokeType::rounded});
+
+    }
+    
+    //================================================================================
     /* Rotary sliders with symmetrical view */
     //================================================================================
     RotarSymmetricalRotaryLookAndFeel::RotarSymmetricalRotaryLookAndFeel(unsigned char colourStyle) : RotarLookAndFeel(colourStyle) {
@@ -686,6 +807,7 @@ namespace Rosen
         drawRotaryThumb (g, centre, outerRadius, angle);
 
     }
+    
     
     //================================================================================
     /* Linear sliders with symmetrical view */
