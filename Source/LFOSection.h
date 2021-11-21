@@ -31,7 +31,7 @@ public:
         std::unique_ptr<juce::Slider> amount;
         std::unique_ptr<juce::ComboBox> target;
         // reserved area for the object contained in SendControl object
-        std::unique_ptr<juce::Rectangle<int>> area_a;
+        std::unique_ptr<juce::Rectangle<int>> objectArea;
     };
     void paint (juce::Graphics&) override;
     void resized() override;
@@ -50,9 +50,11 @@ private:
     Rosen::RotarLookAndFeel lfoLookAndFeel;
     
     /* areas. */
-    std::unique_ptr<juce::Rectangle<int>> rateArea;
-    std::unique_ptr<juce::Rectangle<int>> phaseArea;
-    std::unique_ptr<juce::Rectangle<int>> targetArea;
+    std::unique_ptr<juce::Rectangle<int>> labelArea; // 4 objects
+    std::unique_ptr<juce::Rectangle<int>> rateArea; // 1 object
+    std::unique_ptr<juce::Rectangle<int>> phaseArea; // 3 objects
+    std::unique_ptr<juce::Rectangle<int>> targetArea; // 3 objects
+    // button area?
     
     void addControls();
     void makeControlsVisible();
