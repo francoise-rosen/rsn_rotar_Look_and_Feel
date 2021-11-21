@@ -11,7 +11,8 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "WaveshaperLookAndFeel.h"
+//#include "WaveshaperLookAndFeel.h"
+#include "RotarLookAndFeel.h"
 
 //==============================================================================
 /*
@@ -44,7 +45,7 @@ private:
     /* This is how many targets the LFO has .*/
     const int numTargets { 3 };
     std::vector<SendControl> controls;
-    WaveshaperLookAndFeel waveshaperLookAndFeel;
+    Rosen::RotarLookAndFeel lfoLookAndFeel;
     
     /* areas. */
     std::unique_ptr<juce::Rectangle<int>> rateArea;

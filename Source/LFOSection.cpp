@@ -24,8 +24,8 @@ LFOSection::LFOSection()
     addControls();
     makeControlsVisible();
     
-    waveshaperLookAndFeel.setToggleButtonTickStyle (WaveshaperLookAndFeel::ToggleButtonTickStyle::Fill);
-    setLookAndFeel (&waveshaperLookAndFeel);
+    //lfoLookAndFeel.setToggleButtonTickStyle (WaveshaperLookAndFeel::ToggleButtonTickStyle::Fill);
+    setLookAndFeel (&lfoLookAndFeel);
 }
 
 LFOSection::~LFOSection()
