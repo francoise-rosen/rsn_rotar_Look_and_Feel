@@ -53,12 +53,17 @@ void LFOSection::paint (juce::Graphics& g)
 void LFOSection::resized()
 {
     auto box = getLocalBounds();
+    // split horizontally
+    std::vector<float> horizontalRatio {};
+    
     labelArea = std::make_unique<juce::Rectangle<int>>(box.removeFromTop(juce::jmax(14.0f, getHeight() * 0.1f)));
     rateArea = std::make_unique<juce::Rectangle<int>> (box.removeFromLeft (getWidth() * 0.3f));
     phaseArea = std::make_unique<juce::Rectangle<int>> (box.removeFromLeft (getWidth() * 0.3f));
     targetArea = std::make_unique<juce::Rectangle<int>> (box);
     lfoRateSlider.setBounds (rateArea->reduced (5.0f));
+     
     
+    // add control objects
     for (int j = 0; j < controls.size(); ++j)
     {
 //        controls[j].area_a = std::make_unique<juce::Rectangle<int>> (targetArea->withBottom (targetArea->getY() + targetArea->getHeight() / (numTargets - j)));
@@ -67,6 +72,8 @@ void LFOSection::resized()
         controls[j].toggle->setBounds (controls[j].objectArea->removeFromLeft (getHeight() / numTargets));
         controls[j].target->setBounds (controls[j].objectArea->withSizeKeepingCentre(controls[j].objectArea->getWidth(), juce::jmin (27.0f, controls[j].objectArea->getHeight() * 0.5f)));
     }
+    
+    // add labels
     
 }
 
