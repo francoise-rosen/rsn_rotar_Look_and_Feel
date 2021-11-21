@@ -36,15 +36,17 @@ public:
     void resized() override;
 
 private:
+    /* Control names - each of these must have a lable (or lable for the group) and a listener*/
+    enum LFOControl {Rate, PhaseAlpha, PhaseBeta, PhaseGamma, AmountAlpha, AmountBeta, AmountGamma, OnAlpha, OnBeta, OnGamma, NumControls};
     juce::Slider lfoRateSlider { juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::TextBoxBelow };
-    juce::Label label_A;
+    juce::Label labelLFO;
     
-    /** This is how many targets the LFO has .*/
+    /* This is how many targets the LFO has .*/
     const int numTargets { 3 };
     std::vector<SendControl> controls;
     WaveshaperLookAndFeel waveshaperLookAndFeel;
     
-    /** areas. */
+    /* areas. */
     std::unique_ptr<juce::Rectangle<int>> rateArea;
     std::unique_ptr<juce::Rectangle<int>> phaseArea;
     std::unique_ptr<juce::Rectangle<int>> targetArea;
