@@ -15,11 +15,8 @@
 LFOSection::LFOSection()
 {
     addAndMakeVisible (&lfoRateSlider);
-    addAndMakeVisible (&labelLFO);
-    labelLFO.setText ("LFO", juce::NotificationType::dontSendNotification);
-    labelLFO.setJustificationType (juce::Justification::centred);
-    labelLFO.setColour (juce::Label::outlineColourId, juce::Colours::darkblue);
-    labelLFO.setColour (juce::Label::backgroundColourId, juce::Colours::darkcyan.darker());
+    
+    addLabels();
     
     addControls();
     makeControlsVisible();
@@ -38,8 +35,9 @@ void LFOSection::paint (juce::Graphics& g)
     g.fillAll (juce::Colours::silver);   // clear the background
 
     g.setColour (juce::Colours::black);
-    g.setFont (14.0f);
-    g.drawText ("LFOSection", getLocalBounds(),
+    g.setOpacity(0.05f);
+    g.setFont (getHeight() * 0.85f);
+    g.drawText ("LFO", getLocalBounds(),
                 juce::Justification::centred, true);   // draw some placeholder text
     
     g.setColour(juce::Colours::orange);
@@ -111,6 +109,22 @@ void LFOSection::makeControlsVisible()
         controls[i].amount->setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::black);
         controls[i].amount->setColour(juce::Slider::rotarySliderOutlineColourId, juce::Colours::black);
         
+    }
+}
+
+void LFOSection::addLabels() noexcept
+{
+    controlLabel.resize(labels.size());
+    /* set lable objects */
+    for (auto i = 0u; i < labels.size(); ++i) {
+        controlLabel[i] = std::make_unique<juce::Label>();
+        controlLabel[i]->setText(labels[i], juce::NotificationType::dontSendNotification);
+        controlLabel[i]->setJustificationType (juce::Justification::centred);
+        controlLabel[i]->setColour (juce::Label::outlineColourId, juce::Colours::darkblue);
+        controlLabel[i]->setColour (juce::Label::backgroundColourId, juce::Colours::darkcyan.darker());
+        
+        /* add and make them visible*/
+        addAndMakeVisible(controlLabel[i].get());
     }
 }
 

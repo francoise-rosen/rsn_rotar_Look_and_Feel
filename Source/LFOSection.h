@@ -35,12 +35,14 @@ public:
     };
     void paint (juce::Graphics&) override;
     void resized() override;
+    void addLabels() noexcept;
 
 private:
     /* Control names - each of these must have a lable (or lable for the group) and a listener*/
-    enum LFOControl {Rate, PhaseAlpha, PhaseBeta, PhaseGamma, AmountAlpha, AmountBeta, AmountGamma, OnAlpha, OnBeta, OnGamma, NumControls};
+    //enum LFOControl {Rate, PhaseAlpha, PhaseBeta, PhaseGamma, AmountAlpha, AmountBeta, AmountGamma, OnAlpha, OnBeta, OnGamma, NumControls};
     juce::Slider lfoRateSlider { juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::TextBoxBelow };
-    juce::Label labelLFO;
+    std::array<std::string, 4> labels {"Rate", "Amount", "Target", "ø"};
+    std::vector<std::unique_ptr<juce::Label>> controlLabel;
     
     /* This is how many targets the LFO has .*/
     const int numTargets { 3 };
