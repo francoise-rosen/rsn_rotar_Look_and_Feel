@@ -41,7 +41,7 @@ private:
     /* Control names - each of these must have a lable (or lable for the group) and a listener*/
     //enum LFOControl {Rate, PhaseAlpha, PhaseBeta, PhaseGamma, AmountAlpha, AmountBeta, AmountGamma, OnAlpha, OnBeta, OnGamma, NumControls};
     juce::Slider lfoRateSlider { juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::TextBoxBelow };
-    std::array<std::string, 4> labels {"Rate", "Amount", "Target", "ø"};
+    std::array<std::string, 5> labels {"Rate", "Wave", "Amount", "Target", "ø"};
     std::vector<std::unique_ptr<juce::Label>> controlLabel;
     
     /* This is how many targets the LFO has .*/
@@ -54,7 +54,8 @@ private:
     std::unique_ptr<juce::Rectangle<int>> rateArea; // 1 object
     std::unique_ptr<juce::Rectangle<int>> phaseArea; // 3 objects
     std::unique_ptr<juce::Rectangle<int>> targetArea; // 3 objects
-    // button area?
+    std::unique_ptr<juce::Rectangle<int>> waveArea; // 3 objects
+    std::unique_ptr<juce::Rectangle<int>> toggleArea; // 3 objects
     
     void addControls();
     void makeControlsVisible();

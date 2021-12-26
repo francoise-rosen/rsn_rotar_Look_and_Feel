@@ -77,18 +77,6 @@ void LFOSection::resized()
     
 }
 
-/** Copy constructor. */
-//LFOSection::SendControl::SendControl (const SendControl& send)
-//{
-//    /** does make unique deletes the object currently managed by unique_ptr? */
-//    toggle = std::make_unique<juce::ToggleButton> ();
-//    toggle = std::make_unique<juce::ToggleButton> (*(send.toggle));
-//    /** do I need to dereference? */
-//    amount = std::make_unique<juce::Slider> (send.amount);
-//    destination = std::make_unique<juce::ComboBox> (send.destination);
-//    area_a = std::make_unique<juce::Rectangle<int>> (send.area_a);
-//}
-
 void LFOSection::addControls()
 {
     controls.clear();
