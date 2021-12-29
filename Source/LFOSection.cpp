@@ -16,8 +16,7 @@ LFOSection::LFOSection()
 {
     addAndMakeVisible (&lfoRateSlider);
     
-    addLabels();
-    
+    makeMesh();
     addControls();
     makeControlsVisible();
     
@@ -41,40 +40,26 @@ void LFOSection::paint (juce::Graphics& g)
                 juce::Justification::centred, true);   // draw some placeholder text
     
     g.setColour(juce::Colours::orange);
-    for (int i = 0; i < controls.size(); ++i)
-    {
-        if (controls[i].objectArea != nullptr)
-        {
-            g.drawRect(*(controls[i].objectArea));
-        }
+    
+    for (auto rect : areas) {
+        g.drawRect(rect);
     }
 }
 
 void LFOSection::resized()
 {
-    auto box = getLocalBounds();
-    // split horizontally
-    std::vector<float> horizontalRatio {};
+    auto area = getLocalBounds();
+    makeMesh();
+    // Rate Slider + Label
     
-    labelArea = std::make_unique<juce::Rectangle<int>>(box.removeFromTop(juce::jmax(14.0f, getHeight() * 0.1f)));
-    rateArea = std::make_unique<juce::Rectangle<int>> (box.removeFromLeft (getWidth() * 0.3f));
-    phaseArea = std::make_unique<juce::Rectangle<int>> (box.removeFromLeft (getWidth() * 0.3f));
-    targetArea = std::make_unique<juce::Rectangle<int>> (box);
-    lfoRateSlider.setBounds (rateArea->reduced (5.0f));
-     
-    
-    // add control objects
-    for (int j = 0; j < controls.size(); ++j)
-    {
-//        controls[j].area_a = std::make_unique<juce::Rectangle<int>> (targetArea->withBottom (targetArea->getY() + targetArea->getHeight() / (numTargets - j)));
-        controls[j].objectArea = std::make_unique<juce::Rectangle<int>> (targetArea->removeFromTop (box.getHeight() / numTargets));
-        controls[j].amount->setBounds (controls[j].objectArea->removeFromRight (targetArea->getWidth() * 0.25f));
-        controls[j].toggle->setBounds (controls[j].objectArea->removeFromLeft (getHeight() / numTargets));
-        controls[j].target->setBounds (controls[j].objectArea->withSizeKeepingCentre(controls[j].objectArea->getWidth(), juce::jmin (27.0f, controls[j].objectArea->getHeight() * 0.5f)));
-    }
-    
-    // add labels
-    
+}
+
+void LFOSection::makeMesh()
+{
+    areas.resize(NumAreas);
+    auto area = getLocalBounds();
+    areas[Rate] = area.removeFromLeft(section["Rate"] * getWidth());
+    areas[On] = area.removeFromLeft(section["On"] * getWidth());
 }
 
 void LFOSection::addControls()
@@ -108,19 +93,4 @@ void LFOSection::makeControlsVisible()
     }
 }
 
-void LFOSection::addLabels() noexcept
-{
-    controlLabel.resize(labels.size());
-    /* set lable objects */
-    for (auto i = 0u; i < labels.size(); ++i) {
-        controlLabel[i] = std::make_unique<juce::Label>();
-        controlLabel[i]->setText(labels[i], juce::NotificationType::dontSendNotification);
-        controlLabel[i]->setJustificationType (juce::Justification::centred);
-        controlLabel[i]->setColour (juce::Label::outlineColourId, juce::Colours::darkblue);
-        controlLabel[i]->setColour (juce::Label::backgroundColourId, juce::Colours::darkcyan.darker());
-        
-        /* add and make them visible*/
-        addAndMakeVisible(controlLabel[i].get());
-    }
-}
 

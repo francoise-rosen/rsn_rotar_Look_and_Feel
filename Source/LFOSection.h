@@ -20,46 +20,43 @@
 class LFOSection  : public juce::Component
 {
 public:
+    struct SendControl
+    {
+        std::unique_ptr<juce::ToggleButton> toggle;
+        std::unique_ptr<juce::Slider> amount;
+        std::unique_ptr<juce::Slider> phase;
+        std::unique_ptr<juce::ComboBox> target;
+        std::unique_ptr<juce::ComboBox> waveform;
+        // reserved area for the object contained in SendControl object
+//        std::unique_ptr<juce::Rectangle<int>> objectArea; // including labels
+    };
+    
     LFOSection();
     virtual ~LFOSection() override;
     
-    struct SendControl
-    {
-        //SendControl (const SendControl&);
-        
-        std::unique_ptr<juce::ToggleButton> toggle;
-        std::unique_ptr<juce::Slider> amount;
-        std::unique_ptr<juce::ComboBox> target;
-        // reserved area for the object contained in SendControl object
-        std::unique_ptr<juce::Rectangle<int>> objectArea;
-    };
+    
     void paint (juce::Graphics&) override;
     void resized() override;
-    void addLabels() noexcept;
 
 private:
     /* Control names - each of these must have a lable (or lable for the group) and a listener*/
-    //enum LFOControl {Rate, PhaseAlpha, PhaseBeta, PhaseGamma, AmountAlpha, AmountBeta, AmountGamma, OnAlpha, OnBeta, OnGamma, NumControls};
     juce::Slider lfoRateSlider { juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::TextBoxBelow };
-    std::array<std::string, 5> labels {"Rate", "Wave", "Amount", "Target", "ø"};
-    std::vector<std::unique_ptr<juce::Label>> controlLabel;
     
     /* This is how many targets the LFO has .*/
     const int numTargets { 3 };
+    // horizonal sections
+    std::map<std::string, float> section {{"Rate", 0.2f}, {"On", 0.1f}, {"Wave", 0.2f}, {"Amount", 0.15f}, {"Target", 0.2}, {"ø", 0.15f}};
+ 
     std::vector<SendControl> controls;
     Rosen::RotarLookAndFeel lfoLookAndFeel;
     
     /* areas. */
-    std::unique_ptr<juce::Rectangle<int>> labelArea; // 4 objects
-    std::unique_ptr<juce::Rectangle<int>> rateArea; // 1 object
-    std::unique_ptr<juce::Rectangle<int>> phaseArea; // 3 objects
-    std::unique_ptr<juce::Rectangle<int>> targetArea; // 3 objects
-    std::unique_ptr<juce::Rectangle<int>> waveArea; // 3 objects
-    std::unique_ptr<juce::Rectangle<int>> toggleArea; // 3 objects
-    
+    enum AreaRectangle {Rate, On, Wave, Amount, Target, Phase, NumAreas};
+    std::vector<juce::Rectangle<int>> areas;
+  
+    void makeMesh();
     void addControls();
     void makeControlsVisible();
-    
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LFOSection)
 };
