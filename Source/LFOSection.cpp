@@ -39,10 +39,13 @@ void LFOSection::paint (juce::Graphics& g)
     g.drawText ("LFO", getLocalBounds(),
                 juce::Justification::centred, true);   // draw some placeholder text
     
-    g.setColour(juce::Colours::orange);
+    g.setColour(juce::Colours::darkcyan);
     
-    for (auto rect : areas) {
-        g.drawRect(rect);
+    g.setOpacity(1.0f);
+    g.setFont(14.0f);
+    for (auto i = 0; i < NumAreas; ++i) {
+        g.drawRect(areas[i]);
+        g.drawText(section[i].first, areas[i].withTop(juce::jmin(15.0f, getHeight() * 0.1f)), juce::Justification::centredTop, true);
     }
 }
 
@@ -51,15 +54,25 @@ void LFOSection::resized()
     auto area = getLocalBounds();
     makeMesh();
     // Rate Slider + Label
+    lfoRateSlider.setBounds(areas[Rate].removeFromBottom(getHeight() - 30));
     
 }
 
 void LFOSection::makeMesh()
 {
-    areas.resize(NumAreas);
+    areas.resize(section.size());
     auto area = getLocalBounds();
-    areas[Rate] = area.removeFromLeft(section["Rate"] * getWidth());
-    areas[On] = area.removeFromLeft(section["On"] * getWidth());
+    // enum AreaRectangle {Rate, On, Wave, Amount, Target, Phase, NumAreas};
+//    areas[Rate] = area.removeFromLeft(section[Rate].second * getWidth());
+//    areas[On] = area.removeFromLeft(section[On].second * getWidth());
+//    areas[Wave] = area.removeFromLeft(section[Wave].second * getWidth());
+//    areas[Amount] = area.removeFromLeft(section[Amount].second * getWidth());
+//    areas[Target] = area.removeFromLeft(section[Target].second * getWidth());
+//    areas[Phase] = area.removeFromLeft(section[Phase].second * getWidth());
+    for (auto i = 0; i < areas.size(); ++i) {
+        areas[i] = area.removeFromLeft(section[i].second * getWidth());
+    }
+
 }
 
 void LFOSection::addControls()

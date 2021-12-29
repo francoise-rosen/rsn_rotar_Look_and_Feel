@@ -43,9 +43,9 @@ private:
     juce::Slider lfoRateSlider { juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::TextBoxBelow };
     
     /* This is how many targets the LFO has .*/
-    const int numTargets { 3 };
+    const int numTargets { 2 };
     // horizonal sections
-    std::map<std::string, float> section {{"Rate", 0.2f}, {"On", 0.1f}, {"Wave", 0.2f}, {"Amount", 0.15f}, {"Target", 0.2}, {"ø", 0.15f}};
+    std::vector<std::pair<std::string, float>> section {{"Rate", 0.2f}, {"On", 0.1f}, {"Wave", 0.2f}, {"Amo", 0.15f}, {"Targ", 0.2}, {"ø", 0.15f}};
  
     std::vector<SendControl> controls;
     Rosen::RotarLookAndFeel lfoLookAndFeel;
