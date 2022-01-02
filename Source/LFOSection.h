@@ -45,7 +45,7 @@ private:
     /* This is how many targets the LFO has .*/
     const int numTargets { 3 };
     // horizonal sections
-    std::vector<std::pair<std::string, float>> section {{"Rate", 0.2f}, {"On", 0.1f}, {"Targ", 0.2}, {"Amo", 0.25f}, {"ø", 0.25f}};
+    std::vector<std::pair<std::string, float>> section {{"Rate", 0.2f}, {"On", 0.1f}, {"Targ", 0.2}, {"Amo", 0.2f}, {"ø", 0.3f}};
  
     std::vector<SendControl> controls;
     Rosen::RotarLookAndFeel lfoLookAndFeel;

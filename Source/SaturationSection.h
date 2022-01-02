@@ -70,9 +70,9 @@ private:
     const float edge {5.0f};
     juce::Slider saturationSlider {juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::TextBoxBelow};
     juce::Colour localBackground;
-    WaveshaperLookAndFeel customLookAndFeel;
+    Rosen::RotarLookAndFeel customLookAndFeel;
 //    RotarySliderBigLookAndFeel rotaryLookAndFeel;
-    Rosen::RotarBigRotaryLookAndFeel rotaryLookAndFeel {0x4};
+    Rosen::RotarBigRotaryLookAndFeel rotaryLookAndFeel {0x5};
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SaturationSection)
 };
