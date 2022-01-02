@@ -22,9 +22,9 @@ namespace Rosen
     
     void RotarLookAndFeel::setColourStyle() noexcept {
         switch (colourStyle) {
-            case Default:
+            case DefaultBuild:
             {
-                /* Slider default colours */
+                /* default palette without matched colours - every unit of the object has unique colour or shade */
                 setColour (juce::Slider::backgroundColourId, juce::Colours::darkcyan);
                 setColour (juce::Slider::trackColourId, juce::Colours::cyan);
                 setColour (juce::Slider::thumbColourId, juce::Colours::darkcyan);
@@ -50,6 +50,12 @@ namespace Rosen
                 setColour (juce::TextButton::buttonOnColourId, juce::Colours::orange);
                 setColour (juce::ToggleButton::textColourId, juce::Colours::black);
                 setColour (juce::ToggleButton::tickColourId, juce::Colours::orange);
+                break;
+            }
+                
+            case DefaultRelease:
+            {
+                /* default palette with matched colours */
                 break;
             }
             case BlackWhite:

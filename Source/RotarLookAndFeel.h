@@ -27,7 +27,7 @@ namespace Rosen
             ArcWithCornersIn, ArcThreePointerEmpty, ArcThreePointerFilled, NoOutline };
         enum class ButtonShape { RoundedRect, Rect, Circle, Custom };
         enum class ToggleButtonTickStyle { Fill, Tick, Cross };
-        enum ColourStyle {Default, BlackWhite, SilverBlack, Cyan, Uranus};
+        enum ColourStyle {DefaultBuild, DefaultRelease, BlackWhite, SilverBlack, Cyan, Uranus};
         
         //================================================================================
         /* Constructors */

@@ -15,10 +15,9 @@
 LFOSection::LFOSection()
 {
     addAndMakeVisible (&lfoRateSlider);
-    
-    makeMesh();
     addControls();
     makeControlsVisible();
+    makeMesh();
     
     //lfoLookAndFeel.setToggleButtonTickStyle (WaveshaperLookAndFeel::ToggleButtonTickStyle::Fill);
     setLookAndFeel (&lfoLookAndFeel);
@@ -56,6 +55,11 @@ void LFOSection::resized()
     // Rate Slider + Label
     lfoRateSlider.setBounds(areas[Rate].removeFromBottom(getHeight() - 30));
     
+    auto phaseArea = areas[Phase];
+    for (auto j = 0; j < controls.size(); ++j) {
+        controls[j].phase->setBounds(phaseArea.removeFromLeft(phaseArea.getWidth() / (controls.size() - j)));
+    }
+    
 }
 
 void LFOSection::makeMesh()
@@ -87,6 +91,9 @@ void LFOSection::addControls()
         controls[i].amount = std::make_unique<juce::Slider> (juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::NoTextBox);
         controls[i].target = std::make_unique<juce::ComboBox> ("Choice " + juce::String (i));
         controls[i].target->addItemList({"iF FReQ", "iF Q", "iF Bst", "oF Freq", "oF Q", "oF Bst", "Satur", "Crossfd", "mx"}, 1);
+        
+        // phase
+        controls[i].phase = std::make_unique<juce::Slider>(juce::Slider::SliderStyle::LinearVertical, juce::Slider::TextEntryBoxPosition::NoTextBox);
     }
 }
 
@@ -97,6 +104,7 @@ void LFOSection::makeControlsVisible()
         addAndMakeVisible (controls[i].amount.get());
         addAndMakeVisible (controls[i].toggle.get());
         addAndMakeVisible (controls[i].target.get());
+        addAndMakeVisible (controls[i].phase.get());
         controls[i].target->setColour(juce::ComboBox::backgroundColourId, juce::Colours::darkcyan);
         controls[i].target->setColour(juce::ComboBox::textColourId, juce::Colours::black);
         controls[i].target->setColour(juce::ComboBox::outlineColourId, juce::Colours::black);
