@@ -52,7 +52,7 @@ private:
     std::unique_ptr<CrossfadeSection> crossfadeSection;
     std::unique_ptr<GainSection> gainSection;
     
-    int width { 750 };
+    int width { 760 };
     int height { 400 };
     const float edge {5.0f};
     
