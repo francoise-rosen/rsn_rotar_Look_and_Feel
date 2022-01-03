@@ -14,13 +14,14 @@
 //==============================================================================
 LFOSection::LFOSection()
 {
+    setLookAndFeel (&lfoLookAndFeel);
     addAndMakeVisible (&lfoRateSlider);
+    
     addControls();
     makeControlsVisible();
     makeMesh();
     
     //lfoLookAndFeel.setToggleButtonTickStyle (WaveshaperLookAndFeel::ToggleButtonTickStyle::Fill);
-    setLookAndFeel (&lfoLookAndFeel);
 }
 
 LFOSection::~LFOSection()
@@ -55,9 +56,14 @@ void LFOSection::resized()
     // Rate Slider + Label
     lfoRateSlider.setBounds(areas[Rate].removeFromBottom(getHeight() - 30));
     
-    auto phaseArea = areas[Phase];
+    auto phaseArea = areas[Phase].withTop(labelHight);
+    auto amountArea = areas[Amount].withTop(labelHight);
+    auto targetArea = areas[Target].withTop(labelHight);
+
     for (auto j = 0; j < controls.size(); ++j) {
-        controls[j].phase->setBounds(phaseArea.removeFromLeft(phaseArea.getWidth() / (controls.size() - j)));
+        controls[j].phase->setBounds(phaseArea.removeFromLeft(phaseArea.getWidth() / (controls.size() - j)).reduced(2, 7));
+        controls[j].amount->setBounds(amountArea.removeFromTop(amountArea.getHeight() / (controls.size() - j)));
+        controls[j].target->setBounds(targetArea.removeFromTop(targetArea.getHeight() / (controls.size() - j)).reduced(2, juce::jmax(7, static_cast<int>(getHeight() * 0.07f))));
     }
     
 }
@@ -66,13 +72,6 @@ void LFOSection::makeMesh()
 {
     areas.resize(section.size());
     auto area = getLocalBounds();
-    // enum AreaRectangle {Rate, On, Wave, Amount, Target, Phase, NumAreas};
-//    areas[Rate] = area.removeFromLeft(section[Rate].second * getWidth());
-//    areas[On] = area.removeFromLeft(section[On].second * getWidth());
-//    areas[Wave] = area.removeFromLeft(section[Wave].second * getWidth());
-//    areas[Amount] = area.removeFromLeft(section[Amount].second * getWidth());
-//    areas[Target] = area.removeFromLeft(section[Target].second * getWidth());
-//    areas[Phase] = area.removeFromLeft(section[Phase].second * getWidth());
     for (auto i = 0; i < areas.size(); ++i) {
         areas[i] = area.removeFromLeft(section[i].second * getWidth());
     }
@@ -85,15 +84,14 @@ void LFOSection::addControls()
     controls.resize (numTargets);
     for (int i = 0; i < controls.size(); ++i)
     {
-//        controls[i].amount->setSliderStyle (juce::Slider::SliderStyle::Rotary);
-//        controls[i].toggle = std::make_unique<juce::ToggleButton> ("Send " + juce::String (i));
         controls[i].toggle = std::make_unique<juce::ToggleButton> ();
         controls[i].amount = std::make_unique<juce::Slider> (juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::NoTextBox);
         controls[i].target = std::make_unique<juce::ComboBox> ("Choice " + juce::String (i));
         controls[i].target->addItemList({"iF FReQ", "iF Q", "iF Bst", "oF Freq", "oF Q", "oF Bst", "Satur", "Crossfd", "mx"}, 1);
         
         // phase
-        controls[i].phase = std::make_unique<juce::Slider>(juce::Slider::SliderStyle::LinearVertical, juce::Slider::TextEntryBoxPosition::NoTextBox);
+        controls[i].phase = std::make_unique<juce::Slider>(juce::Slider::SliderStyle::LinearVertical, juce::Slider::TextEntryBoxPosition::TextBoxBelow);
+        std::cout << "section" << i << "added\n";
     }
 }
 
