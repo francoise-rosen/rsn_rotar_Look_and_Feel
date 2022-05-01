@@ -254,6 +254,13 @@ namespace Rosen
         void setPointerType (PointerType newPointerType);
         
         /* Drawing methods */
+        /* Only horizontal or vertical one value slider. */
+        void drawLinearSlider (juce::Graphics& g, int x, int y, int width, int height,
+                               float sliderPos,
+                               float minSliderPos,
+                               float maxSliderPos,
+                               const juce::Slider::SliderStyle style,
+                               juce::Slider& slider) override;
         
         
     private:
@@ -267,17 +274,28 @@ namespace Rosen
         TriangleFillType triangleFillType { TriangleFillType::Triangles };
         PointerType pointerType { PointerType::Triangle };
         
+        /* private drawing methods */
+        void drawTrackGradient (juce::Graphics& g, juce::Slider& slider, const float& trackWidth, const juce::Point<float>& startPos, const juce::Point<float>& midPos, const juce::Point<float>& maxPoint, const juce::Point<float>& endPos);
+        
+        void drawThumbLinearTri (juce::Graphics& g, float x, float y, float diameter, juce::Colour& colour, int direction ) noexcept;
+        
+        void drawThumbLinearArrow (juce::Graphics& g, float x, float y, float diameter, juce::Colour& colour, int direction ) noexcept;
+        
+        void drawThumbLinearCircle (juce::Graphics& g, float x, float y, float diameter, juce::Colour& colour) noexcept;
+        
     };
     
     //================================================================================
     /* Rotary and Linear Sliders with symmetrical view */
     //================================================================================
-    class RotarSymmetricalSliderLookAndFeel : public RotarSymmetricalRotaryLookAndFeel,
-                                              public RotarSymmetricalLinearLookAndFeel
-    {
-    public:
-        RotarSymmetricalSliderLookAndFeel();
-        virtual ~RotarSymmetricalSliderLookAndFeel() override;
-        
-    };
+    
+    // TODO!
+//    class RotarSymmetricalSliderLookAndFeel : virtual public RotarSymmetricalRotaryLookAndFeel,
+//                                              virtual public RotarSymmetricalLinearLookAndFeel
+//    {
+//    public:
+//        RotarSymmetricalSliderLookAndFeel();
+//        virtual ~RotarSymmetricalSliderLookAndFeel() override;
+//
+//    };
 }
