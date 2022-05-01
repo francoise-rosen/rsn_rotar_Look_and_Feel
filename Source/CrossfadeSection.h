@@ -12,6 +12,8 @@
 
 #include <JuceHeader.h>
 #include "Arrow.h"
+#include "LED.h"
+#include "WaveshaperLookAndFeel.h"
 
 //==============================================================================
 /*
@@ -54,15 +56,15 @@ public:
         symmetricalLinearLookAndFeel.setLinearSliderThumbOuterRimColour (juce::Colours::black);
         symmetricalLinearLookAndFeel.setPointerType (SymmetricalLinearLookAndFeel::PointerType::Circle);
         
-        negative.setLookAndFeel (&indicatorLabelLookAndFeel);
-        positive.setLookAndFeel (&indicatorLabelLookAndFeel);
+        negative.setLookAndFeel (&ledLookAndFeel);
+        positive.setLookAndFeel (&ledLookAndFeel);
         negative.setText ("-", juce::NotificationType::dontSendNotification);
         positive.setText ("+", juce::NotificationType::dontSendNotification);
         negative.setJustificationType (juce::Justification::centred);
         positive.setJustificationType (juce::Justification::centred);
         negative.setColour (juce::Label::outlineColourId, juce::Colours::black);
-        indicatorLabelLookAndFeel.setGradientOn (true);
-        indicatorLabelLookAndFeel.setFillColour (localBackground.withAlpha (0.0f));
+        ledLookAndFeel.setGradientOn (true);
+        ledLookAndFeel.setFillColour (localBackground.withAlpha (0.0f));
         //indicatorLabelLookAndFeel.setColour (juce::Label::outlineColourId, juce::Colours::black);
         
         // this is the fill colour, or the inner colour in gradient
@@ -113,7 +115,7 @@ public:
             juce::Point<float> {
                 arrowXRight - arrowheadLength, arrowY
             },
-            /** right endge */
+            /* right edge */
             juce::Point<float> {
                 arrowXRight, arrowY
             }
@@ -169,7 +171,7 @@ public:
         
     }
     
-    void setFont (juce::Font f)
+    void setFont (const juce::Font& f)
     {
         defaultFont = f;
     }
@@ -191,17 +193,17 @@ private:
     juce::Slider symmetrySlider {juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::TextBoxBelow};
     juce::Slider crossfadeSlider {juce::Slider::SliderStyle::LinearHorizontal, juce::Slider::TextEntryBoxPosition::TextBoxBelow};
     
-    WaveshaperLookAndFeel crossfadeLookAndFeel;
+    Rosen::RotarLookAndFeel crossfadeLookAndFeel;
     Rosen::RotarSymmetricalRotaryLookAndFeel symmetricalRotaryLookAndFeel {0x2};
-    SymmetricalLinearLookAndFeel symmetricalLinearLookAndFeel;
-    IndicatorLookAndFeel indicatorLabelLookAndFeel;
+    Rosen::RotarSymmetricalLinearLookAndFeel symmetricalLinearLookAndFeel;
+    Rosen::Interface::LED ledLookAndFeel;
     
     juce::Label negative {"negative", "-"};
     juce::Label positive {"positive", "+"};
     juce::Font defaultFont {"Monaco", "Plain", 14.0f};
     const juce::StringArray waveforms {"SINe", "CoS", "TaNH"};
     
-    /** coordinates. */
+    /* coordinates. */
     std::unique_ptr<juce::Rectangle<float>> sliderArea {nullptr};
     std::unique_ptr<juce::Rectangle<float>> comboArea {nullptr};
     

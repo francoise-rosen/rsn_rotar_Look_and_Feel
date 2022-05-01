@@ -9,7 +9,7 @@
 */
 
 #include <JuceHeader.h>
-#include "LFOSection.h"
+#include "../Source/LFOSection.h"
 
 //==============================================================================
 LFOSection::LFOSection()

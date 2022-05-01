@@ -55,6 +55,6 @@ private:
     juce::Colour localBackground;
     juce::Slider gainSlider {juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::NoTextBox};
     juce::Slider amountSlider {juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::NoTextBox};
-    WaveshaperLookAndFeel gainLookAndFeel;
+    Rosen::RotarLookAndFeel gainLookAndFeel;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GainSection)
 };
