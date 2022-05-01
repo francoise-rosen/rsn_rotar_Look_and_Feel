@@ -819,7 +819,40 @@ namespace Rosen
     /* Linear sliders with symmetrical view */
     //================================================================================
 
+    /* Constructors */
     RotarSymmetricalLinearLookAndFeel::RotarSymmetricalLinearLookAndFeel() {}
     RotarSymmetricalLinearLookAndFeel::~RotarSymmetricalLinearLookAndFeel() {}
+    
+    /* Setters and Getters */
+    void RotarSymmetricalLinearLookAndFeel::setSliderThumbRadius (const float& newRadius)
+    {
+        if (newRadius < 0.0f)
+            sliderThumbRadius = 0.0f;
+        sliderThumbRadius = newRadius;
+    }
+    
+    int RotarSymmetricalLinearLookAndFeel::getSliderThumbRadius (juce::Slider& slider)
+    {
+        return juce::jmin (sliderThumbRadius, slider.isHorizontal() ? static_cast<float> (slider.getHeight()) * 0.5f : static_cast<float> (slider.getWidth()) * 0.5f);
+    }
+    void RotarSymmetricalLinearLookAndFeel::setThumbTriColour (const juce::Colour& newColour)
+    {
+        linearSliderThumbTriColour = newColour;
+    }
+    
+    void RotarSymmetricalLinearLookAndFeel::RotarSymmetricalLinearLookAndFeel::setLinearSliderThumbOuterRimColour (const juce::Colour& newColour)
+    {
+        linearSliderThumbOuterRimColour = newColour.withAlpha (0.25f);
+    }
+    
+    void RotarSymmetricalLinearLookAndFeel::setPointerFill (PointerFill newFillFlag)
+    {
+        pointerFill = newFillFlag;
+    }
+    
+    void RotarSymmetricalLinearLookAndFeel::setPointerType (PointerType newPointerType)
+    {
+        pointerType = newPointerType;
+    }
         
 }

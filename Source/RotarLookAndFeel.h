@@ -245,13 +245,35 @@ namespace Rosen
         RotarSymmetricalLinearLookAndFeel();
         virtual ~RotarSymmetricalLinearLookAndFeel() override;
         
+        /* Setters and Getters */
+        void setSliderThumbRadius (const float& newRadius);
+        int getSliderThumbRadius (juce::Slider& slider) override;
+        void setThumbTriColour (const juce::Colour& newColour);
+        void setLinearSliderThumbOuterRimColour (const juce::Colour& newColour);
+        void setPointerFill (PointerFill newFillFlag);        
+        void setPointerType (PointerType newPointerType);
+        
+        /* Drawing methods */
+        
+        
+    private:
+        
+        /* members */
+        float sliderThumbRadius {15.0f};
+        juce::Colour linearSliderThumbTriColour {juce::Colours::white.withAlpha (0.75f)};
+        juce::Colour linearSliderThumbTriFill {juce::Colours::black};
+        juce::Colour linearSliderThumbOuterRimColour {juce::Colours::silver.withAlpha (0.2f)};
+        PointerFill pointerFill { PointerFill::FillGradient };
+        TriangleFillType triangleFillType { TriangleFillType::Triangles };
+        PointerType pointerType { PointerType::Triangle };
+        
     };
     
     //================================================================================
     /* Rotary and Linear Sliders with symmetrical view */
     //================================================================================
     class RotarSymmetricalSliderLookAndFeel : public RotarSymmetricalRotaryLookAndFeel,
-                                         public RotarSymmetricalLinearLookAndFeel
+                                              public RotarSymmetricalLinearLookAndFeel
     {
     public:
         RotarSymmetricalSliderLookAndFeel();
