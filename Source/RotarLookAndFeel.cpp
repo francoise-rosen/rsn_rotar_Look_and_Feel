@@ -920,7 +920,7 @@ namespace Rosen
             return;
         };
         
-        /** Draw background. */
+        /* Draw background. */
         
         juce::Path background;
         g.setColour (backgroundColour);
