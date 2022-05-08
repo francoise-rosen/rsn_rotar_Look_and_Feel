@@ -15,17 +15,16 @@ namespace Rosen::Interface {
     class LED : public juce::LookAndFeel_V4
     {
     public:
-        LED()
-        {}
+        LED() {}
         
         LED (juce::Colour componentBackground)
-        :fillColour {componentBackground.withAlpha(0.0f)}, gradientOuterColour {componentBackground}
-        {}
+        :fillColour {componentBackground.withAlpha(0.0f)}, gradientOuterColour {componentBackground} {}
         
-        virtual ~LED() override
-        {}
+        virtual ~LED() override {}
         
         enum class LEDShape { Ellipse, Circle, RoundedRectangle, Rectangle, Triangle };
+        
+        /* Setters and Getters */
         void setGradientOuterColour (juce::Colour colour)
         {
             gradientOuterColour = colour;
@@ -38,6 +37,8 @@ namespace Rosen::Interface {
         {
             fillColour = componentBackground;
         }
+        
+        /* Drawing methods */
         void drawLabel (juce::Graphics& g, juce::Label& label) override
         {
             auto innerColour = label.findColour (juce::Label::backgroundColourId);

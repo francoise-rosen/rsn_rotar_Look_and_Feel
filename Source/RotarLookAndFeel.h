@@ -245,17 +245,57 @@ namespace Rosen
         RotarSymmetricalLinearLookAndFeel();
         virtual ~RotarSymmetricalLinearLookAndFeel() override;
         
+        /* Setters and Getters */
+        void setSliderThumbRadius (const float& newRadius);
+        int getSliderThumbRadius (juce::Slider& slider) override;
+        void setThumbTriColour (const juce::Colour& newColour);
+        void setLinearSliderThumbOuterRimColour (const juce::Colour& newColour);
+        void setPointerFill (PointerFill newFillFlag);        
+        void setPointerType (PointerType newPointerType);
+        
+        /* Drawing methods */
+        /* Only horizontal or vertical one value slider. */
+        void drawLinearSlider (juce::Graphics& g, int x, int y, int width, int height,
+                               float sliderPos,
+                               float minSliderPos,
+                               float maxSliderPos,
+                               const juce::Slider::SliderStyle style,
+                               juce::Slider& slider) override;
+        
+        
+    private:
+        
+        /* members */
+        float sliderThumbRadius {15.0f};
+        juce::Colour linearSliderThumbTriColour {juce::Colours::white.withAlpha (0.75f)};
+        juce::Colour linearSliderThumbTriFill {juce::Colours::black};
+        juce::Colour linearSliderThumbOuterRimColour {juce::Colours::silver.withAlpha (0.2f)};
+        PointerFill pointerFill { PointerFill::FillGradient };
+        TriangleFillType triangleFillType { TriangleFillType::Triangles };
+        PointerType pointerType { PointerType::Triangle };
+        
+        /* private drawing methods */
+        void drawTrackGradient (juce::Graphics& g, juce::Slider& slider, const float& trackWidth, const juce::Point<float>& startPos, const juce::Point<float>& midPos, const juce::Point<float>& maxPoint, const juce::Point<float>& endPos);
+        
+        void drawThumbLinearTri (juce::Graphics& g, float x, float y, float diameter, juce::Colour& colour, int direction ) noexcept;
+        
+        void drawThumbLinearArrow (juce::Graphics& g, float x, float y, float diameter, juce::Colour& colour, int direction ) noexcept;
+        
+        void drawThumbLinearCircle (juce::Graphics& g, float x, float y, float diameter, juce::Colour& colour) noexcept;
+        
     };
     
     //================================================================================
     /* Rotary and Linear Sliders with symmetrical view */
     //================================================================================
-    class RotarSymmetricalSliderLookAndFeel : public RotarSymmetricalRotaryLookAndFeel,
-                                         public RotarSymmetricalLinearLookAndFeel
-    {
-    public:
-        RotarSymmetricalSliderLookAndFeel();
-        virtual ~RotarSymmetricalSliderLookAndFeel() override;
-        
-    };
+    
+    // TODO!
+//    class RotarSymmetricalSliderLookAndFeel : virtual public RotarSymmetricalRotaryLookAndFeel,
+//                                              virtual public RotarSymmetricalLinearLookAndFeel
+//    {
+//    public:
+//        RotarSymmetricalSliderLookAndFeel();
+//        virtual ~RotarSymmetricalSliderLookAndFeel() override;
+//
+//    };
 }

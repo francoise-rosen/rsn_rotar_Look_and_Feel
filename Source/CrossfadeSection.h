@@ -54,7 +54,7 @@ public:
         symmetricalLinearLookAndFeel.setThumbTriColour (juce::Colours::white);
         symmetricalLinearLookAndFeel.setColour (juce::Slider::backgroundColourId, juce::Colours::blue.withBrightness(0.25f));
         symmetricalLinearLookAndFeel.setLinearSliderThumbOuterRimColour (juce::Colours::black);
-        symmetricalLinearLookAndFeel.setPointerType (SymmetricalLinearLookAndFeel::PointerType::Circle);
+        symmetricalLinearLookAndFeel.setPointerType (Rosen::RotarSymmetricalLinearLookAndFeel::PointerType::Circle);
         
         negative.setLookAndFeel (&ledLookAndFeel);
         positive.setLookAndFeel (&ledLookAndFeel);

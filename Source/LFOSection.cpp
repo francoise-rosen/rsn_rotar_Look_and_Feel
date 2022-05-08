@@ -51,7 +51,6 @@ void LFOSection::paint (juce::Graphics& g)
 
 void LFOSection::resized()
 {
-    auto area = getLocalBounds();
     makeMesh();
     // Rate Slider + Label
     lfoRateSlider.setBounds(areas[Rate].removeFromBottom(getHeight() - 30));
