@@ -8,7 +8,7 @@
   ==============================================================================
 */
 
-#include "../Source/RotarLookAndFeel.h"
+#include "RotarLookAndFeel.h"
 
 namespace Rosen
 {

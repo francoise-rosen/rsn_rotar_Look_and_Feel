@@ -9,7 +9,7 @@
 */
 
 #include <JuceHeader.h>
-#include "../Source/FilterSection.h"
+#include "FilterSection.h"
 
 //==============================================================================
 FilterSection::FilterSection(juce::Colour parentBackground)
