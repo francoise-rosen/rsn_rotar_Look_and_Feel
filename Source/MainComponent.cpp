@@ -41,7 +41,7 @@ void MainComponent::resized()
     auto windowArea = getLocalBounds().reduced(edge);
     filterSection->setBounds (windowArea.removeFromLeft (windowArea.getWidth()* 2.0f / 5.0f));
     auto midSection = windowArea.removeFromLeft (windowArea.getWidth() * 2.0f / 3.0f);
-    lfoSection.setBounds (midSection.removeFromBottom (midSection.getHeight() / 3.0f));
+    lfoSection.setBounds (midSection.removeFromBottom (midSection.getHeight() / 2.5f));
     saturationSection->setBounds (midSection);
     gainSection->setBounds (windowArea.removeFromBottom (windowArea.getHeight() / 3.0f));
     crossfadeSection->setBounds (windowArea);
