@@ -60,7 +60,7 @@ void LFOSection::resized()
     auto targetArea = areas[Target].withTop(labelHight);
 
     for (auto j = 0; j < controls.size(); ++j) {
-        controls[j].phase->setBounds(phaseArea.removeFromLeft(phaseArea.getWidth() / (controls.size() - j)).reduced(2, 7));
+        controls[j].phase->setBounds(phaseArea.removeFromTop(phaseArea.getHeight() / (controls.size() - j)).reduced(2, 7));
         controls[j].amount->setBounds(amountArea.removeFromTop(amountArea.getHeight() / (controls.size() - j)));
         controls[j].target->setBounds(targetArea.removeFromTop(targetArea.getHeight() / (controls.size() - j)).reduced(2, juce::jmax(7, static_cast<int>(getHeight() * 0.07f))));
     }
@@ -89,7 +89,7 @@ void LFOSection::addControls()
         controls[i].target->addItemList({"iF FReQ", "iF Q", "iF Bst", "oF Freq", "oF Q", "oF Bst", "Satur", "Crossfd", "mx"}, 1);
         
         // phase
-        controls[i].phase = std::make_unique<juce::Slider>(juce::Slider::SliderStyle::LinearVertical, juce::Slider::TextEntryBoxPosition::TextBoxBelow);
+        controls[i].phase = std::make_unique<juce::Slider>(juce::Slider::SliderStyle::Rotary, juce::Slider::TextEntryBoxPosition::NoTextBox);
         std::cout << "section" << i << "added\n";
     }
 }
