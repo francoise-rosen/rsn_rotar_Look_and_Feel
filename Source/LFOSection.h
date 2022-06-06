@@ -26,7 +26,7 @@ public:
         std::unique_ptr<juce::Slider> amount;
         std::unique_ptr<juce::Slider> phase;
         std::unique_ptr<juce::ComboBox> target;
-        std::unique_ptr<juce::ComboBox> waveform;
+        //std::unique_ptr<juce::ComboBox> waveform;
         // reserved area for the object contained in SendControl object
 //        std::unique_ptr<juce::Rectangle<int>> objectArea; // including labels
     };
@@ -44,7 +44,7 @@ private:
     
     /* This is how many targets the LFO has .*/
     const int numTargets { 3 };
-    int labelHight {30};
+    int labelHight {20};
     // horizonal sections
     std::vector<std::pair<std::string, float>> section {{"Rate", 0.2f}, {"On", 0.1f}, {"Targ", 0.2}, {"Amo", 0.2f}, {"ø", 0.3f}};
  
