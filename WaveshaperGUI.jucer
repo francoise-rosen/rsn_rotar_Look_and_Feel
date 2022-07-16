@@ -4,34 +4,27 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="P7AsAc" name="WaveshaperGUI">
     <GROUP id="{A1D56B31-0608-B36F-172C-342AB4336C32}" name="Source">
-      <GROUP id="{192B2D68-CC57-6282-DF49-36D39C7F5889}" name="Windows">
-        <GROUP id="{9C36CB00-AD47-87F7-C787-461622BF5FFC}" name="Source">
-          <FILE id="Pp2cXd" name="LFOSection.cpp" compile="1" resource="0" file="Source/LFOSection.cpp"/>
-          <FILE id="iLHdom" name="FilterSection.cpp" compile="1" resource="0"
-                file="Source/FilterSection.cpp"/>
-        </GROUP>
-        <GROUP id="{2E5054D0-D286-2952-B04B-4D0F5ABE5D9A}" name="Include">
-          <FILE id="jbFMOv" name="GainSection.h" compile="0" resource="0" file="Source/GainSection.h"/>
-          <FILE id="CQJqIr" name="CrossfadeSection.h" compile="0" resource="0"
-                file="Source/CrossfadeSection.h"/>
-          <FILE id="CoH3yR" name="SaturationSection.h" compile="0" resource="0"
-                file="Source/SaturationSection.h"/>
-          <FILE id="QIzCSe" name="LFOSection.h" compile="0" resource="0" file="Source/LFOSection.h"/>
-          <FILE id="sYHtmF" name="FilterSection.h" compile="0" resource="0" file="Source/FilterSection.h"/>
-        </GROUP>
+      <GROUP id="{192B2D68-CC57-6282-DF49-36D39C7F5889}" name="Sections">
+        <FILE id="Pp2cXd" name="LFOSection.cpp" compile="1" resource="0" file="Source/LFOSection.cpp"/>
+        <FILE id="iLHdom" name="FilterSection.cpp" compile="1" resource="0"
+              file="Source/FilterSection.cpp"/>
+        <FILE id="jbFMOv" name="GainSection.h" compile="0" resource="0" file="Source/GainSection.h"/>
+        <FILE id="CQJqIr" name="CrossfadeSection.h" compile="0" resource="0"
+              file="Source/CrossfadeSection.h"/>
+        <FILE id="CoH3yR" name="SaturationSection.h" compile="0" resource="0"
+              file="Source/SaturationSection.h"/>
+        <FILE id="QIzCSe" name="LFOSection.h" compile="0" resource="0" file="Source/LFOSection.h"/>
+        <FILE id="sYHtmF" name="FilterSection.h" compile="0" resource="0" file="Source/FilterSection.h"/>
       </GROUP>
       <GROUP id="{C7DE6394-3349-2BFF-E0DC-7F94E2FA0C41}" name="GUI">
-        <GROUP id="{FAB29E5A-0AA6-9FB2-2E8D-A5AA5AA5445E}" name="Source">
-          <FILE id="pqbipH" name="RotarLookAndFeel.cpp" compile="1" resource="0"
-                file="Source/RotarLookAndFeel.cpp"/>
-          <FILE id="BwkMPI" name="LED.cpp" compile="1" resource="0" file="Source/LED.cpp"/>
-        </GROUP>
-        <GROUP id="{8539C6F5-64E7-F1D1-B757-B2DFB4CFB746}" name="Include">
-          <FILE id="Ohzcrf" name="Arrow.h" compile="0" resource="0" file="Source/Arrow.h"/>
-          <FILE id="giH2Vw" name="LED.h" compile="0" resource="0" file="Source/LED.h"/>
-          <FILE id="wQKcom" name="RotarLookAndFeel.h" compile="0" resource="0"
-                file="Source/RotarLookAndFeel.h"/>
-        </GROUP>
+        <FILE id="pqbipH" name="RotarLookAndFeel.cpp" compile="1" resource="0"
+              file="Source/RotarLookAndFeel.cpp"/>
+        <FILE id="Ohzcrf" name="Arrow.h" compile="0" resource="0" file="Source/Arrow.h"/>
+        <FILE id="giH2Vw" name="LED.h" compile="0" resource="0" file="Source/LED.h"/>
+        <FILE id="wQKcom" name="RotarLookAndFeel.h" compile="0" resource="0"
+              file="Source/RotarLookAndFeel.h"/>
+        <FILE id="BwkMPI" name="LED.cpp" compile="1" resource="0" file="Source/LED.cpp"/>
+        <GROUP id="{FAB29E5A-0AA6-9FB2-2E8D-A5AA5AA5445E}" name="Source"/>
       </GROUP>
       <FILE id="gVxKZd" name="WaveshaperLookAndFeel.h" compile="0" resource="0"
             file="Source/WaveshaperLookAndFeel.h"/>
